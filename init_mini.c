@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/03/21 06:28:17 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:58:20 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,13 @@ static char	**dup_envp(char **envp, int env_size)
 	char	**result;
 
 	i = 0;
-	result = malloc(sizeof(char *) * (env_size + 1));
+	result = ft_malloc(sizeof(char *) * (env_size + 1));
 	if (!result)
 		return(NULL);
 	while(envp[i])
 	{
 		result[i] = ft_strdup(envp[i]);
-		printf("here in \n");
 		gc_add_begin(result[i]);
-		printf("here out\n");
 		if (!result[i])
 		{
 			gc_free_all();
@@ -52,9 +50,7 @@ t_minishell	*init_mini(char **envp)
 {
 	t_minishell 	*mini;
 	int				env_size;
-	int				i;
 
-	i = 0;
 	mini = ft_malloc(sizeof(t_minishell));
 	if(!mini)
 		return (NULL);
