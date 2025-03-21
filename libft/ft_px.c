@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 18:09:29 by sdemiroz          #+#    #+#             */
-/*   Updated: 2024/11/29 21:53:06 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/03/19 01:43:42 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	ft_px(unsigned long nbr)
 	cc = 1;
 	cc += ft_putstr("0x");
 	if (cc != 3)
-		return (-1);
-	if (nbr < 0)
 		return (-1);
 	x = nto_str(nbr);
 	if (x < 0)

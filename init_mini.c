@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/03/19 00:57:23 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:28:17 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,18 @@ static char	**dup_envp(char **envp, int env_size)
 	result = malloc(sizeof(char *) * (env_size + 1));
 	if (!result)
 		return(NULL);
-	while(envp[i++])
+	while(envp[i])
 	{
 		result[i] = ft_strdup(envp[i]);
+		printf("here in \n");
+		gc_add_begin(result[i]);
+		printf("here out\n");
 		if (!result[i])
 		{
-			while(--i >= 0)
-				free(result[i]);
-			free(result);
+			gc_free_all();
 			return(NULL);
 		}
+		i++;
 	}
 	result[i] = NULL;
 	return(result);
@@ -53,7 +55,7 @@ t_minishell	*init_mini(char **envp)
 	int				i;
 
 	i = 0;
-	mini = malloc(sizeof(t_minishell));
+	mini = ft_malloc(sizeof(t_minishell));
 	if(!mini)
 		return (NULL);
 	mini->pipe_list = NULL;
@@ -62,9 +64,6 @@ t_minishell	*init_mini(char **envp)
 	env_size = count_env_entries(envp);
 	mini->env = dup_envp(envp, env_size);
 	if(!mini->env)
-	{
-		free(mini);
 		return(NULL);
-	}
 	return(mini);
 }

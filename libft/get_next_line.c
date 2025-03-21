@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:23:42 by sdemiroz          #+#    #+#             */
-/*   Updated: 2024/12/02 01:25:18 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/03/19 01:44:06 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,16 +102,16 @@ static char	*ft_get_buffer(int fd, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[OPEN_MAX];
+	static char	*buffer;
 	char		*res;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer[fd] = ft_get_buffer(fd, buffer[fd]);
-	if (!buffer[fd])
+	buffer = ft_get_buffer(fd, buffer);
+	if (!buffer)
 		return (NULL);
-	res = ft_get_res(buffer[fd]);
-	buffer[fd] = ft_get_rest(buffer[fd]);
+	res = ft_get_res(buffer);
+	buffer = ft_get_rest(buffer);
 	return (res);
 }
 // int main(void)
