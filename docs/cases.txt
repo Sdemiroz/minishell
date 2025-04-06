@@ -1,0 +1,17 @@
+ls <<a -r <"'infile.txt'" -la
+ls <<a -r <infile.txt -la
+ls | unset PATH
+unset PATH
+
+
+Keine Prioritaet:
+(unset PATH)
+
+
+Chnage Auther and Email for Commits:
+
+git config --global --edit
+git config --global user.name "Sdemiroz"
+git config --global user.email "samed.demiroez@yahoo.de"
+git config --list
+git config --global --list

@@ -6,16 +6,19 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/03/21 07:10:48 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/06 17:50:07 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "garbage_collector/garbage_collector.h"
-# include "libft/libft.h"
+# include "libft.h"
 # include <stdlib.h>
+# include <stdio.h>
+# include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef enum e_redirection_type
 {
@@ -61,5 +64,31 @@ typedef struct s_minishell
 }							t_minishell;
 
 t_minishell					*init_mini(char **envp);
+
+//------------ SRCS -----------//
+
+//Function Prototypes BEGIN
+void			dummy_file_function(void);
+void			debug_putstr(char *msg, char *file, const char *function, int line);
+
+// init_mini
+int				count_env_entries(char **envp);
+char			**dup_envp(char **envp, int env_size);
+t_minishell		*init_mini(char **envp);
+
+// tests.c
+bool			quotes_error(char *user_input);
+
+
+//----------LEXER_AND_PARSER------------//
+
+// lexer.c
+t_pipe_list		create_tokens(char *user_input);
+
+
+// helpers.c
+void			remove_spaces(char *user_input, int *i, int *start);
+void			iter_quote(char *user_input, int *i);
+
 
 #endif

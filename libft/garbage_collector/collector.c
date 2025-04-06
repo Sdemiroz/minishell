@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 01:09:29 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/03/19 01:16:25 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/03/24 06:44:08 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	gc_free_all(void)
 {
-	int					len;
-	int					i;
+	ssize_t					len;
+	ssize_t					i;
 	t_gc_node			*temp;
 	t_gc_node			*current;
 	t_garbage_collector	*gc;
 
 	gc = get_gc();
 	current = gc->head;
-	len = gc->size;
+	len = (ssize_t)gc->size;
 	i = -1;
 	while (++i < len && current)
 	{

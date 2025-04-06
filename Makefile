@@ -1,93 +1,135 @@
-# # Standard
-# NAME				= minishell
+NAME := minishell
+.DEFAULT_GOAL := all
+CC := cc
+AR := ar
+RM := rm -rf
 
-# # Directories
-# LIBFT				= ./libft/libft.a
-# SRC_DIR				= ./
-# OBJ_DIR				= obj/
-# INC					= .
+################################################################################
+###############                  DIRECTORIES                      ##############
+################################################################################
 
-# # Compiler and CFlags
-# CC					= cc
-# CFLAGS				= -Wall -Werror -Wextra -I $(INC)
-# RM					= rm -f
+LIBFT	:= ./libft/libft.a
 
-# # Source Files
-# SRCS				= $(wildcard $(SRC_DIR)*.c)
+OBJ_DIR := _obj
 
-# # Object Files
-# OBJ					= $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRCS))
-
-# # Build rules
-# all:				$(NAME)
-
-# $(NAME):			$(OBJ) $(LIBFT)
-# 					@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
-# 					@echo "$(NAME) created successfully!"
-
-# $(OBJ_DIR)%.o:		$(SRC_DIR)%.c minishell.h
-# 					@mkdir -p $(@D)
-# 					@$(CC) $(CFLAGS) -c $< -o $@
-
-# $(LIBFT):
-# 					@make -C ./libft
-
-# clean:
-# 					@$(RM) -r $(OBJ_DIR)
-# 					@make clean -C ./libft
-
-# fclean:				clean
-# 					@$(RM) $(NAME)
-# 					@make fclean -C ./libft
-
-# re:					fclean all
-
-# .PHONY:				all clean fclean re
+INC_DIRS := Includes \
+			libft \
+			libft/garbage_collector
 
 
-NAME                = minishell
-
-# Directories
-LIBFT               = ./libft/libft.a
-SRC_DIR             = ./
-GC_DIR              = garbage_collector/
-OBJ_DIR             = obj/
-INC_DIRS            = . garbage_collector
-
-# Compiler and CFlags
-CC                  = cc
-CFLAGS              = -Wall -Werror -Wextra $(addprefix -I, $(INC_DIRS))
-RM                  = rm -f
-
-# Source Files (include .c files from both directories)
-SRCS                = $(wildcard $(SRC_DIR)*.c) $(wildcard $(GC_DIR)*.c)
-
-# Object Files
-OBJ                 = $(patsubst %.c, $(OBJ_DIR)%.o, $(SRCS))
+SRC_DIRS := src \
+			lexer_and_parser \
 
 
-# Build rules
-all:				$(NAME)
 
-$(NAME):			$(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
-	@echo "$(NAME) created successfully!"
+# Tell the Makefile where headers and source files are
+vpath %.hpp $(INC_DIRS)
+vpath %.cpp $(SRC_DIRS)
 
-$(OBJ_DIR)%.o: %.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+################################################################################
+###############                  SOURCE FILES                     ##############
+################################################################################
+
+MAIN_FILE := main.c
+
+# SRC_TEST_MAIN := main_tests.c
+
+SRC_FILES := init_mini.c tests.c
+
+DUMMY_FILES :=  dummy_file.c
+DUMMY_REPO := $(addprefix dummy_repo/, $(DUMMY_FILES))
+
+#Combines all
+MELTING_POT :=	$(SRC_REPO) \
+				$(SRC_FILES) \
+				$(DUMMY_REPO)
+
+SRCS := $(MAIN_FILE) $(addprefix src/, $(MELTING_POT))
+
+OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+
+################################################################################
+########                         COMPILING                      ################
+################################################################################
+
+# CFLAGS := -Wall -Wextra -Werror -g -MMD -MP -I$(INC_DIRS)
+CFLAGS :=	-Wall -Werror -Wextra -Wpedantic -Wshadow -Wno-shadow \
+			-Wconversion -Wsign-conversion -g -MMD -MP \
+			$(addprefix -I, $(INC_DIRS))
+CFLAGS_SAN := $(CFLAGS) -fsanitize=address
+LDFLAGS := -lncurses -lreadline
+LDFLAGS_SAN := -lncurses -fsanitize=address -lreadline
+ARFLAGS := -rcs
+
+# ANSI color codes
+GREEN := \033[0;32m
+MAGENTA := \033[0;35m
+BOLD := \033[1m
+NC := \033[0m # Reset
+
+#Test/Playground exec.
+NAME_TEST=tests.out
+
+all:  $(LIBFT) $(NAME)
+
+# $(NAME): $(OBJS) $(HDR_CHECK)
+$(NAME): $(OBJS) $(LIBFT)
+#$(AR) $(ARFLAGS) $(NAME) $(OBJS)
+	$(CC) $(LDFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@echo "$(GREEN)$(BOLD)Successful Compilation$(NC)"
+
+# Rule to compile .o files
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Ensure the directories exist
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
 $(LIBFT):
 	@make -C ./libft
 
 clean:
-	@$(RM) -r $(OBJ_DIR)
+	$(RM) $(OBJ_DIR)
 	@make clean -C ./libft
 
-fclean:             clean
-	@$(RM) $(NAME)
+fclean: clean
+	$(RM) $(NAME) $(NAME_TEST)
 	@make fclean -C ./libft
+	@echo "$(MAGENTA)$(BOLD)Executable + Object Files cleaned$(NC)"
 
-re:					fclean all
+re: fclean submodule_update all
 
-.PHONY:				all clean fclean re
+submodule_update:
+	git submodule update --remote --merge
+
+bonus: all
+
+# san: fclean
+# 	make CFLAGS="$(CFLAGS_SAN)" LDFLAGS="$(LDFLAGS_SAN)"
+# 	@echo "$(GREEN)$(BOLD)Successful Compilation with fsan$(NC)"
+san:
+	make CFLAGS="$(CFLAGS_SAN)" LDFLAGS="$(LDFLAGS_SAN)"
+	@echo "$(GREEN)$(BOLD)Successful Compilation with fsan$(NC)"
+
+re_sub: submodule_rebuild
+
+submodule_rebuild:
+	git submodule deinit -f .
+	git submodule update --init --recursive
+
+debug: clean
+debug: CFLAGS += -DDEBUG
+debug: $(NAME)
+
+redebug: fclean debug
+
+test:
+	make $(NAME_TEST) MAIN_FILE="$(SRC_TEST_MAIN)" NAME=$(NAME_TEST)
+
+retest: fclean test
+
+-include $(OBJS:%.o=%.d)
+
+.PHONY: all clean fclean re bonus re_sub submodule_rebuild san debug test

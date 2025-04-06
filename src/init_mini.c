@@ -6,19 +6,19 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/03/21 07:07:07 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:59:50 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**dup_envp(char **envp, int env_size)
+char	**dup_envp(char **envp, int env_size)
 {
 	int		i;
 	char	**result;
 
 	i = 0;
-	result = ft_malloc(sizeof(char *) * (env_size + 1));
+	result = ft_malloc(sizeof(char *) * (size_t)(env_size + 1));
 	if (!result)
 		return (NULL);
 	while (envp[i])
@@ -36,7 +36,7 @@ static char	**dup_envp(char **envp, int env_size)
 	return (result);
 }
 
-static int	count_env_entries(char **envp)
+int	count_env_entries(char **envp)
 {
 	int	count;
 
@@ -61,4 +61,10 @@ t_minishell	*init_mini(char **envp)
 	if (!mini->env)
 		return (NULL);
 	return (mini);
+}
+
+bool	parse_and_init(t_minishell *mini, char *user_input)
+{
+	//MISSING get_path
+	mini->pipe_list = create_tokens(user_input);
 }

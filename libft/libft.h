@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:44:50 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/01/25 03:12:06 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/03/24 07:34:39 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "garbage_collector.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 40
