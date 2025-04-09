@@ -25,7 +25,8 @@ SRCS :=	ft_isalpha.c ft_isdigit.c ft_isalpha.c ft_isascii.c ft_isprint.c \
 		ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 		ft_putendl_fd.c ft_putnbr_fd.c ft_printf.c ft_itoa_2.c ft_putstr.c \
 		ft_px.c ft_ux.c ft_sx.c ft_bx.c ft_putchar.c ft_strjoin_gnl.c get_next_line.c \
-		garbage_collector/collector.c garbage_collector/exit.c garbage_collector/utils.c
+		garbage_collector/collector.c garbage_collector/exit.c garbage_collector/utils.c \
+		ft_isspace.c
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 

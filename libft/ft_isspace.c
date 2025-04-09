@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/06 15:56:36 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/06 18:14:57 by sdemiroz         ###   ########.fr       */
+/*   Created: 2025/04/09 03:34:35 by sdemiroz          #+#    #+#             */
+/*   Updated: 2025/04/09 03:36:22 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_pipe_list		create_tokens(char *user_input)
+int		ft_isspace(char c)
 {
-	t_pipe_list		pipe_list;
-	int				i;
-	int				start;
-
-	i = 0;
-	remove_spaces(user_input, &i, &start);
-	while(user_input[i])
-	{
-		if (ft_isquote(user_input[i]))
-			iter_quote(user_input, &i);
-		else if (is_redirection(user_input + i))
-
-	}
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
+		return (1);
+	return (0);
 }

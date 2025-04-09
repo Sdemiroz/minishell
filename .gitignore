@@ -1,0 +1,9 @@
+_obj
+.vscode
+*.o
+*.a
+libft.a
+libft/libft.a
+.DS_Store
+minishell
+docs/GitNorm.md
