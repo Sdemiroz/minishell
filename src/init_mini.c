@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 04:53:41 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/09 05:00:43 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,4 @@ t_minishell	*init_mini(char **envp)
 	return (mini);
 }
 
-bool	parsing(t_minishell *mini, char *user_input)
-{
-	// mini->paths = get_paths(mini);
-	mini->tokens = create_tokens(user_input);
-	return(true);
-}
+

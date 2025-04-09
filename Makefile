@@ -36,8 +36,11 @@ MAIN_FILE := main.c
 
 SRC_FILES := init_mini.c tests.c
 
-LEXER_FILES := lexer.c read_tokens.c
-LEXER_REPO := $(addprefix lexer/, $(LEXER_FILES))
+LEXER_EXPANDER_FILES := lexer.c read_tokens.c
+LEXER_EXPANDER_REPO := $(addprefix lexer_expander/, $(LEXER_EXPANDER_FILES))
+
+PARSING_FILES := parsing.c
+PARSING_REPO := $(addprefix parsing/, $(PARSING_FILES))
 
 DUMMY_FILES :=  dummy_file.c
 DUMMY_REPO := $(addprefix dummy_repo/, $(DUMMY_FILES))
@@ -46,11 +49,12 @@ DUMMY_REPO := $(addprefix dummy_repo/, $(DUMMY_FILES))
 MELTING_POT :=	$(SRC_REPO) \
 				$(SRC_FILES) \
 				$(DUMMY_REPO) \
-				$(LEXER_REPO)
+				$(LEXER_EXPANDER_REPO) \
+				$(PARSING_REPO)
 
 # SRCS := $(MAIN_FILE) $(addprefix src/, $(MELTING_POT))
 SRC_IN_SRC := $(SRC_FILES) $(DUMMY_REPO)
-SRCS := $(MAIN_FILE) $(addprefix src/, $(SRC_IN_SRC)) $(LEXER_REPO)
+SRCS := $(MAIN_FILE) $(addprefix src/, $(SRC_IN_SRC)) $(LEXER_EXPANDER_REPO) $(PARSING_REPO)
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 

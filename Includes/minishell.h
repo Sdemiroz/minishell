@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 04:48:46 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/09 05:01:00 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void						debug_tokens(t_token *tokens);
 t_env						*new_env_node(char *key, char *value);
 t_env						*env_from_envp(char **envp);
 t_minishell					*init_mini(char **envp);
-bool						parsing(t_minishell *mini, char *user_input);
 
 // tests.c
 bool						quotes_error(char *user_input);
@@ -121,5 +120,11 @@ t_token						*new_token(t_token_type type, t_quote_type qtype,
 t_token						*read_quoted_token(char *user_input, int *i);
 t_token						*read_redirection_token(char *user_input, int *i);
 t_token						*read_word(char *user_input, int *i);
+
+//----------PARSING----------//
+
+// parsing.c
+bool						parsing(t_minishell *mini, char *user_input);
+
 
 #endif

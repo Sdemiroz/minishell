@@ -2,6 +2,7 @@ ls <<a -r <"'infile.txt'" -la
 ls <<a -r <infile.txt -la
 ls | unset PATH
 unset PATH
+echo $$ = getpid() -> res
 
 
 Keine Prioritaet:
