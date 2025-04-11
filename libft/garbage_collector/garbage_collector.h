@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 01:07:52 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 06:59:11 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:21:22 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,28 @@ typedef struct s_garbage_collector
 	size_t				size;
 }						t_garbage_collector;
 
-t_gc_node				*gc_create_node(void *pointer2mem);
-void					gc_add_begin(void *pointer);
-t_garbage_collector		*gc_init_garbage_collector(void);
-void					gc_print_linked_list(t_garbage_collector *gc);
-void					gc_free_all(void);
-t_garbage_collector		*get_gc(void);
+typedef struct s_double_gc
+{
+	t_garbage_collector	global;
+	t_garbage_collector	local;
+}						t_double_gc;
+
 void					*ft_malloc(size_t size);
-void					main_cleanup(uint8_t exit_stat);
+void					*ft_malloc_local(size_t size);
+void					*ft_malloc_global(size_t size);
+void					gc_add_global(void *ptr);
+void					gc_add_local(void *ptr);
+void					gc_free_local(void);
+void					gc_free_all(void);
+void					gc_print_linked_list(t_garbage_collector *gc);
+void					gc_add_to(t_garbage_collector *gc, void *ptr);
+void					gc_free_gc(t_garbage_collector *gc);
+t_gc_node 				*gc_create_node(void *ptr);
+t_double_gc				*get_gc(void);
 void					ft_error(char *msg, char *file, int line,
 							uint8_t exit_stat);
+void					main_cleanup(uint8_t exit_stat);
+t_garbage_collector		*gc_init_garbage_collector(void);
+
 
 #endif

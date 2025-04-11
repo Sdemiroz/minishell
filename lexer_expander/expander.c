@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:12:53 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 08:25:19 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:36:07 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*append_char(char *str, char c)
 		len = 0;
 	else
 		len = ft_strlen(str);
-	new = malloc(sizeof(char) * (len + 2));
+	new = ft_malloc_local(sizeof(char) * (len + 2));
 	if (!new)
 		return (NULL);
 	while (i < len)
@@ -33,7 +33,6 @@ char	*append_char(char *str, char c)
 	}
 	new[i++] = c;
 	new[i] = '\0';
-	free(str);
 	return (new);
 }
 
@@ -47,13 +46,13 @@ int	handle_expansion(char **expanded, char *start, t_env *env, int exit_code)
 	if (start[1] == '?')
 	{
 		exit_str = ft_itoa(exit_code);
-		gc_add_begin(exit_str);
-		*expanded = ft_strjoin_free(*expanded, exit_str);
+		gc_add_local(exit_str);
+		*expanded = ft_strjoin_gc(*expanded, exit_str);
 		return (2);
 	}
 	else if (start[1] == '$')
 	{
-		*expanded = ft_strjoin_free(*expanded, "");
+		*expanded = ft_strjoin_gc(*expanded, "");
 		return(2);
 	}
 	var_len = get_var_len(&start[1]);
@@ -63,9 +62,9 @@ int	handle_expansion(char **expanded, char *start, t_env *env, int exit_code)
 		return (1);
 	}
 	key = ft_substr(&start[1], 0, (size_t)var_len);
-	gc_add_begin(key);
+	gc_add_local(key);
 	value = get_env_value(env, key, var_len);
-	*expanded = ft_strjoin_free(*expanded, value);
+	*expanded = ft_strjoin_gc(*expanded, value);
 	return (var_len + 1);
 }
 
@@ -85,7 +84,6 @@ void	ft_expand(t_token *token, t_env *env, int exit_code)
 		else
 			expanded = append_char(expanded, str[x++]);
 	}
-	gc_add_begin(expanded);
 	token->value = expanded;
 }
 

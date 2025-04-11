@@ -6,29 +6,11 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 07:59:44 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:18:43 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free2d(t_env *env)
-{
-    t_env	*current;
-    t_env	*next;
-
-    current = env;
-    while (current != NULL)
-    {
-        next = current->next;
-        if (current->key)
-            free(current->key);
-        if (current->value)
-            free(current->value);
-        free(current);
-        current = next;
-    }
-}
 
 void	main_routine(t_minishell *mini, char *user_input)
 {
@@ -46,30 +28,32 @@ int	main(int argc, char **argv, char **envp)
 	t_garbage_collector *gc_init_garbage_collector(void);
 	(void)argc;
 	(void)argv;
+	gc_init_garbage_collector();
 	mini = init_mini(envp);
+	if (!mini)
+		return (1);
 	while (1)
 	{
-		// MISSING init signals
+		// TODO: init signals
 		user_input = readline("Mini $ ");
 		if (!user_input)
 			break ;
 		if (quotes_error(user_input) == true)
-			printf("Error: open quotes dont work!\n");
-		if (ft_strcmp(user_input, "exit") == 0)
+			printf("Error: open quotes don't work!\n");
+		else if (ft_strcmp(user_input, "exit") == 0)
 		{
 			free(user_input);
-			break;
+			break ;
 		}
 		else
 			main_routine(mini, user_input);
 		add_history(user_input);
+		gc_free_local();
 		free(user_input);
 	}
-	free2d(mini->env);
 	rl_clear_history();
 	gc_free_all();
 	return (0);
 }
-
 // valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 // ./minishell

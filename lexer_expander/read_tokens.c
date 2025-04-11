@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:18:51 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 18:35:43 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:13:12 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token	*read_quoted_token(char *user_input, int *i)
 	while (user_input[*i] && user_input[*i] != quote_char)
 		(*i)++;
 	value = ft_substr(user_input, (unsigned int)start, (size_t)(*i - start));
-	gc_add_begin(value);
+	gc_add_local(value);
 	(*i)++;
 	return (new_token(WORD, qtype, value));
 }
@@ -80,7 +80,7 @@ t_token	*read_redirection_token(char *user_input, int *i)
 	else
 		rtype = PIPE;
 	value = ft_substr(user_input, (unsigned int)*i, (size_t)token_len);
-	gc_add_begin(value);
+	gc_add_local(value);
 	*i += token_len;
 	return (new_token(rtype, NO_QUOTE, value));
 }
@@ -94,6 +94,6 @@ t_token	*read_word(char *user_input, int *i)
 	while (user_input[*i] && !delimiter_check(user_input[*i]))
 		(*i)++;
 	value = ft_substr(user_input, (unsigned int)start, (size_t)(*i - start));
-	gc_add_begin(value);
+	gc_add_local(value);
 	return (new_token(WORD, NO_QUOTE, value));
 }

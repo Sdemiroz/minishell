@@ -6,17 +6,29 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 01:09:01 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 04:29:29 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:15:00 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage_collector.h"
 
-t_garbage_collector	*get_gc(void)
+void	gc_add_to(t_garbage_collector *gc, void *ptr)
 {
-	static t_garbage_collector	gc = {0};
+	t_gc_node	*new;
 
-	return (&gc);
+	new = gc_create_node(ptr);
+	if (!new)
+		ft_error("malloc fail", __FILE__, __LINE__, 1);
+	new->next = gc->head;
+	gc->head = new;
+	gc->size++;
+}
+
+t_double_gc	*get_gc(void)
+{
+	static t_double_gc	dgc = {0};
+
+	return (&dgc);
 }
 
 void	gc_print_linked_list(t_garbage_collector *gc)
@@ -29,11 +41,22 @@ void	gc_print_linked_list(t_garbage_collector *gc)
 
 void	*ft_malloc(size_t size)
 {
-	void	*ptr;
-
-	ptr = malloc(size);
+	return ft_malloc_local(size);
+}
+void	*ft_malloc_global(size_t size)
+{
+	void *ptr = malloc(size);
 	if (!ptr)
-		return (NULL);
-	gc_add_begin(ptr);
-	return (ptr);
+		ft_error("malloc fail", __FILE__, __LINE__, 1);
+	gc_add_global(ptr);
+	return ptr;
+}
+
+void	*ft_malloc_local(size_t size)
+{
+	void *ptr = malloc(size);
+	if (!ptr)
+		ft_error("malloc fail", __FILE__, __LINE__, 1);
+	gc_add_local(ptr);
+	return ptr;
 }

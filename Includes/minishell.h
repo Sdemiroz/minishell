@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 06:35:57 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:26:33 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ char						*append_char(char *str, char c);
 
 // expander_utils.c
 int							get_var_len(char *str);
-char						*ft_strjoin_free(char *s1, char *s2);
+char						*ft_strjoin_gc(char *s1, char *s2);
 char						*get_env_value(t_env *env, const char *key, int var_len);
 
 //----------PARSING----------//
