@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:12:53 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 04:16:40 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 05:34:27 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ int	handle_expansion(char **expanded, char *start, t_env *env, int exit_code)
 		gc_add_begin(exit_str);
 		*expanded = ft_strjoin_free(*expanded, exit_str);
 		return (2);
+	}
+	else if (start[1] == '$')
+	{
+		*expanded = ft_strjoin_free(*expanded, "");
+		return(2);
 	}
 	var_len = get_var_len(&start[1]);
 	if (var_len == 0)
