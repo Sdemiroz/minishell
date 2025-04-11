@@ -6,11 +6,29 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 07:02:24 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 07:59:44 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free2d(t_env *env)
+{
+    t_env	*current;
+    t_env	*next;
+
+    current = env;
+    while (current != NULL)
+    {
+        next = current->next;
+        if (current->key)
+            free(current->key);
+        if (current->value)
+            free(current->value);
+        free(current);
+        current = next;
+    }
+}
 
 void	main_routine(t_minishell *mini, char *user_input)
 {
@@ -47,6 +65,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(user_input);
 		free(user_input);
 	}
+	free2d(mini->env);
 	rl_clear_history();
 	gc_free_all();
 	return (0);

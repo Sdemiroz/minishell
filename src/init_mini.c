@@ -6,11 +6,26 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 04:36:44 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 08:14:01 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_parts(char **parts)
+{
+	int i;
+
+	i = 0;
+	if(!parts)
+		return ;
+	while (parts[i])
+	{
+		free(parts[i]);
+		i++;
+	}
+	free(parts);
+}
 
 t_env	*new_env_node(char *key, char *value)
 {
@@ -19,8 +34,8 @@ t_env	*new_env_node(char *key, char *value)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	node->key = key;
-	node->value = value;
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
 	node->next = NULL;
 	return (node);
 }
@@ -54,10 +69,12 @@ t_env	*env_from_envp(char **envp)
 		parts = ft_split(envp[i], '=');
 		if (!parts || !parts[0] || !parts[1])
 		{
+			free_parts(parts);
 			i++;
 			continue ;
 		}
 		append_env_node(&head, &tail, parts);
+		free_parts(parts);
 		i++;
 	}
 	return (head);
