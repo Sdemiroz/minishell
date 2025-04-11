@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:44:50 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 04:10:50 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 04:20:15 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int					ft_isprint(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 int					ft_isspace(char c);
+int					ft_strcmp(const char *str1, const char *str2);
 int					ft_strncmp(const char *str1, const char *str2, size_t n);
 int					ft_memcmp(const void *str1, const void *str2, size_t n);
 int					ft_atoi(const char *str);

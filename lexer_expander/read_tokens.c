@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:18:51 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 04:12:40 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:35:43 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ t_token	*read_quoted_token(char *user_input, int *i)
 
 t_token	*read_redirection_token(char *user_input, int *i)
 {
-	char				*value;
-	int					token_len;
-	t_token_type		rtype;
+	char			*value;
+	int				token_len;
+	t_token_type	rtype;
 
 	token_len = 1;
 	if (user_input[*i] == '<' && user_input[*i + 1] == '<')

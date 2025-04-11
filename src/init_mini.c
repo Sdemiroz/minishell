@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 05:00:43 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 04:36:44 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*new_env_node(char *key, char *value)
 {
 	t_env	*node;
 
-	node = ft_malloc(sizeof(t_env));
+	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
 	node->key = key;
@@ -24,6 +24,7 @@ t_env	*new_env_node(char *key, char *value)
 	node->next = NULL;
 	return (node);
 }
+
 void	append_env_node(t_env **head, t_env **tail, char **parts)
 {
 	t_env	*new;
@@ -37,6 +38,7 @@ void	append_env_node(t_env **head, t_env **tail, char **parts)
 		(*tail)->next = new;
 	*tail = new;
 }
+
 t_env	*env_from_envp(char **envp)
 {
 	t_env	*head;
@@ -53,10 +55,8 @@ t_env	*env_from_envp(char **envp)
 		if (!parts || !parts[0] || !parts[1])
 		{
 			i++;
-			continue;
+			continue ;
 		}
-		gc_add_begin(parts[0]);
-		gc_add_begin(parts[1]);
 		append_env_node(&head, &tail, parts);
 		i++;
 	}
@@ -77,5 +77,3 @@ t_minishell	*init_mini(char **envp)
 		return (NULL);
 	return (mini);
 }
-
-

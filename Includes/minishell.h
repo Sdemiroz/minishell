@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 05:01:00 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 04:10:33 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,23 @@ t_token						*read_quoted_token(char *user_input, int *i);
 t_token						*read_redirection_token(char *user_input, int *i);
 t_token						*read_word(char *user_input, int *i);
 
+// expander.c
+void						expand_tokens(t_token *head_token_list, t_env *env,
+								int exit_code);
+void						ft_expand(t_token *token, t_env *env,
+								int exit_code);
+int							handle_expansion(char **expanded, char *start,
+								t_env *env, int exit_code);
+char						*append_char(char *str, char c);
+
+// expander_utils.c
+int							get_var_len(char *str);
+char						*ft_strjoin_free(char *s1, char *s2);
+char						*get_env_value(t_env *env, const char *key);
+
 //----------PARSING----------//
 
 // parsing.c
 bool						parsing(t_minishell *mini, char *user_input);
-
 
 #endif

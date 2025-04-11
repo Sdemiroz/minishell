@@ -36,7 +36,7 @@ MAIN_FILE := main.c
 
 SRC_FILES := init_mini.c tests.c
 
-LEXER_EXPANDER_FILES := lexer.c read_tokens.c
+LEXER_EXPANDER_FILES := lexer.c read_tokens.c expander.c expander_utils.c
 LEXER_EXPANDER_REPO := $(addprefix lexer_expander/, $(LEXER_EXPANDER_FILES))
 
 PARSING_FILES := parsing.c
