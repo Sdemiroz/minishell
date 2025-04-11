@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 01:07:52 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/03/21 07:09:13 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 06:59:11 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <strings.h>
+# include <sys/types.h>
 
 typedef struct s_gc_node
 {

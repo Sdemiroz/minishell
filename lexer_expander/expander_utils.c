@@ -6,17 +6,17 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 03:38:29 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 05:17:02 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 06:36:27 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(t_env *env, const char *key)
+char	*get_env_value(t_env *env, const char *key, int var_len)
 {
 	while (env)
 	{
-		if (ft_strcmp(env->key, key) == 0)
+		if (ft_strncmp(env->key, key, (size_t)var_len) == 0)
 			return (env->value);
 		env = env->next;
 	}

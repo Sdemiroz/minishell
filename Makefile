@@ -85,7 +85,7 @@ all:  $(LIBFT) $(NAME)
 # $(NAME): $(OBJS) $(HDR_CHECK)
 $(NAME): $(OBJS) $(LIBFT)
 #$(AR) $(ARFLAGS) $(NAME) $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)Successful Compilation$(NC)"
 
 # Rule to compile .o files

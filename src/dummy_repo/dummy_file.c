@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 03:42:22 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 03:24:59 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 06:20:24 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	debug_putstr(char *msg, char *file, const char *function, int line)
 
 void	dummy_file_function(void)
 {
-	debug_putstr("Fail int o", __FILE__, __FUNCTION__, __LINE__);
+	debug_putstr("Fail int o", __FILE__, __func__, __LINE__);
 }
 void	print_token_type(t_token_type type)
 {

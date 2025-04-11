@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 04:39:17 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 07:02:24 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,17 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (quotes_error(user_input) == true)
 			printf("Error: open quotes dont work!\n");
+		if (ft_strcmp(user_input, "exit") == 0)
+		{
+			free(user_input);
+			break;
+		}
 		else
 			main_routine(mini, user_input);
 		add_history(user_input);
 		free(user_input);
 	}
+	rl_clear_history();
 	gc_free_all();
 	return (0);
 }

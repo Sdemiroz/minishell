@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:12:53 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 05:34:27 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/11 06:34:59 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	handle_expansion(char **expanded, char *start, t_env *env, int exit_code)
 		return (1);
 	key = ft_substr(&start[1], 0, (size_t)var_len);
 	gc_add_begin(key);
-	value = get_env_value(env, key);
+	value = get_env_value(env, key, var_len);
 	*expanded = ft_strjoin_free(*expanded, value);
 	return (var_len + 1);
 }
