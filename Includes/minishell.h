@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 19:26:33 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/12 13:00:25 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void						debug_tokens(t_token *tokens);
 t_env						*new_env_node(char *key, char *value);
 t_env						*env_from_envp(char **envp);
 t_minishell					*init_mini(char **envp);
+void						free_parts(char **parts);
 
 // tests.c
 bool						quotes_error(char *user_input);

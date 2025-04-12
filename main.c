@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 19:18:43 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/12 12:54:46 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ int	main(int argc, char **argv, char **envp)
 	gc_free_all();
 	return (0);
 }
-// valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
+// valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
 // ./minishell
