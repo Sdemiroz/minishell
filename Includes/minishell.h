@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/14 18:15:40 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:01:13 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,8 @@ typedef struct s_minishell
 //----------SRCS----------//
 
 // Function Prototypes BEGIN
-void						dummy_file_function(void);
-void						debug_putstr(char *msg, char *file,
-								const char *function, int line);
-void						print_token_type(t_token_type type);
-void						print_quote_type(t_quote_type qtype);
-void						debug_tokens(t_token *tokens);
+void						debug_parsed_structure(t_pipe_list *pipe_list);
+
 
 // init_mini
 t_env						*new_env_node(char *key, char *value);

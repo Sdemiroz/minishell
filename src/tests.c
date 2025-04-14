@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:45:38 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/13 13:41:29 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:07:30 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,20 @@ bool	syntax_error_check(t_token *token_head)
 
 	temp = token_head;
 	if (temp->type == PIPE)
-		return(false);
+		return(true);
 	while(temp)
 	{
 		if(temp->type == PIPE)
 		{
 			if (!temp->next || temp->next->type == PIPE)
-				return(false);
+				return(true);
 		}
 		if(temp->type == REDIR_IN || temp->type == REDIR_OUT || temp->type == REDIR_APPEND || temp->type == REDIR_HEREDOC)
 		{
 			if (!temp->next || temp->next->type != WORD)
-				return(false);
+				return(true);
 		}
 		temp = temp->next;
 	}
-	return(true);
+	return(false);
 }

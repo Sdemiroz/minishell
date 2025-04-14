@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 04:58:56 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/14 18:07:55 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/14 22:07:16 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	add_word_to_cmd(t_pipe *pipe, char *word)
 		x = 0;
 		while(pipe->cmd[x])
 			x++;
-		new_cmd = ft_malloc_local(sizeof(char *) * (x + 2));
+		new_cmd = ft_malloc_local(sizeof(char *) * (size_t)(x + 2));
 		if (!new_cmd)
 			return;
 		y = 0;
@@ -113,6 +113,12 @@ bool	parsing(t_minishell *mini, char *user_input)
 	expand_tokens(mini->tokens, mini->env, mini->exit_code);
 	if (syntax_error_check(mini->tokens))
 		return(false);
+	mini->pipe_list = ft_malloc_local(sizeof(t_pipe_list));
+	if(!mini->pipe_list)
+		return (false);
+	mini->pipe_list->head = NULL;
+	mini->pipe_list->tail = NULL;
+	mini->pipe_list->size_of_list = 0;
 	parse_tokens_to_pipe_list(mini);
 	return(true);
 }
