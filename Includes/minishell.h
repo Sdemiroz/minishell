@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/12 13:00:25 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/13 19:11:22 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void						free_parts(char **parts);
 
 // tests.c
 bool						quotes_error(char *user_input);
+bool						syntax_error_check(t_token *token_head);
 
 //----------LEXER----------//
 
@@ -140,5 +141,8 @@ char						*get_env_value(t_env *env, const char *key, int var_len);
 
 // parsing.c
 bool						parsing(t_minishell *mini, char *user_input);
+
+// parsing_utils.c
+t_pipe						*create_pipe(void);
 
 #endif

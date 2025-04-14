@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/12 12:54:46 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/13 13:44:29 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	main_routine(t_minishell *mini, char *user_input)
 {
-	if (parsing(mini, user_input) == true)
+	if (parsing(mini, user_input) == false)
 	{
-		debug_tokens(mini->tokens);
+		printf("Syntax Error");
+		return;
 	}
+	debug_tokens(mini->tokens);
 }
 
 int	main(int argc, char **argv, char **envp)

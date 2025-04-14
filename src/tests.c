@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:45:38 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/02 17:44:08 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/13 13:41:29 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,28 @@ bool	quotes_error(char *user_input)
 		i++;
 	}
 	return (single_quote_status || double_quote_status);
+}
+
+bool	syntax_error_check(t_token *token_head)
+{
+	t_token		*temp;
+
+	temp = token_head;
+	if (temp->type == PIPE)
+		return(false);
+	while(temp)
+	{
+		if(temp->type == PIPE)
+		{
+			if (!temp->next || temp->next->type == PIPE)
+				return(false);
+		}
+		if(temp->type == REDIR_IN || temp->type == REDIR_OUT || temp->type == REDIR_APPEND || temp->type == REDIR_HEREDOC)
+		{
+			if (!temp->next || temp->next->type != WORD)
+				return(false);
+		}
+		temp = temp->next;
+	}
+	return(true);
 }
