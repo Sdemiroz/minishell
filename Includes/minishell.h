@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/13 19:11:22 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:15:40 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,12 @@ char						*get_env_value(t_env *env, const char *key, int var_len);
 
 // parsing.c
 bool						parsing(t_minishell *mini, char *user_input);
+void						parse_tokens_to_pipe_list(t_minishell *mini);
+void						add_word_to_cmd(t_pipe *pipe, char *word);
+void						add_redirection(t_pipe *pipe, t_token_type type, char *filename);
 
 // parsing_utils.c
 t_pipe						*create_pipe(void);
+void						add_pipe_to_list(t_pipe_list *list, t_pipe *pipe);
 
 #endif
