@@ -6,15 +6,81 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 03:26:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/15 05:18:58 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/15 20:00:33 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include "minishell.h"
+void	handle_heredoc(t_redirection *redir)
+{
+	int		pipe_fd[2];
+	char	*line;
 
-static void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("heredoc pipe");
+		exit(1);
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break;
+		if (ft_strcmp(line, redir->name_of_file_to_redirect) == 0)
+		{
+			free(line);
+			break;
+		}
+		write(pipe_fd[1], line, ft_strlen(line));
+		write(pipe_fd[1], "\n", 1);
+		free(line);
+	}
+	close(pipe_fd[1]);
+	dup2(pipe_fd[0], STDIN_FILENO);
+	close(pipe_fd[0]);
+}
+
+
+void	handle_redirections(t_redirection *redir)
+{
+	int	fd;
+
+	while (redir)
+	{
+		if (redir->redirection_type == REDIR_HEREDOC)
+		{
+			handle_heredoc(redir);
+			redir = redir->next;
+			continue;
+		}
+		if (redir->redirection_type == REDIR_IN)
+			fd = open(redir->name_of_file_to_redirect, O_RDONLY);
+		else if (redir->redirection_type == REDIR_OUT)
+			fd = open(redir->name_of_file_to_redirect, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (redir->redirection_type == REDIR_APPEND)
+			fd = open(redir->name_of_file_to_redirect, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+		{
+			redir = redir->next;
+			continue;
+		}
+		if (fd == -1)
+		{
+			perror(redir->name_of_file_to_redirect);
+			exit(1);
+		}
+		if (redir->redirection_type == REDIR_IN)
+			dup2(fd, STDIN_FILENO);
+		else
+			dup2(fd, STDOUT_FILENO);
+		close(fd);
+		redir = redir->next;
+	}
+}
+
+
+void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 {
 	char	*path;
 
@@ -29,8 +95,7 @@ static void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-	handle_redirections(cmd->list_of_redirections);
-	if (!cmd->cmd || !cmd->cmd[0])
+	handle_redirections(cmd->list_of_redirections ? cmd->list_of_redirections->head : NULL);	if (!cmd->cmd || !cmd->cmd[0])
 		exit(0);
 	path = get_full_path(cmd->cmd[0], mini->env);
 	if (!path)
@@ -44,7 +109,7 @@ static void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini
 	exit(1);
 }
 
-static void	close_pipe_fds(int *prev_fd, int *pipe_fd)
+void	close_pipe_fds(int *prev_fd, int *pipe_fd)
 {
 	if (*prev_fd != -1)
 		close(*prev_fd);

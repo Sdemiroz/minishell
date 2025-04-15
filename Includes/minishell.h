@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/15 03:30:50 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:55:41 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 typedef struct s_env
 {
@@ -50,12 +52,12 @@ typedef struct s_token // struct to save tokens during tokenization
 	struct s_token *next;
 }							t_token;
 
-typedef struct s_redirection
-{
-	t_token_type			redirection_type;
-	char					*name_of_file_to_redirect;
-	struct s_redirection	*next;
-}							t_redirection;
+	typedef struct s_redirection
+	{
+		t_token_type			redirection_type;
+		char					*name_of_file_to_redirect;
+		struct s_redirection	*next;
+	}							t_redirection;
 
 typedef struct s_redirection_list
 {
@@ -149,6 +151,11 @@ void						add_pipe_to_list(t_pipe_list *list, t_pipe *pipe);
 //----------EXECUTION----------//
 
 // execution.c
+void						handle_heredoc(t_redirection *redir);
+void						handle_redirections(t_redirection *redir);
+void						child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini);
+void						close_pipe_fds(int *prev_fd, int *pipe_fd);
+void						execution(t_minishell *mini);
 
 
 #endif
