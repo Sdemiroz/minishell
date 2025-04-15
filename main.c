@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/14 22:04:39 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/15 03:31:33 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	main_routine(t_minishell *mini, char *user_input)
 	if (parsing(mini, user_input) == false)
 	{
 		printf("Syntax Error\n");
-		return;
+		return ;
 	}
-	debug_parsed_structure(mini->pipe_list);
+	if (!mini->pipe_list)
+		return;
+	else
+		execution(mini);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -37,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		// TODO: init signals
-		user_input = readline("Mini $ ");
+		user_input = readline("Minishell Samed $ ");
 		if (!user_input)
 			break ;
 		if (quotes_error(user_input) == true)

@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/14 21:01:13 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/15 03:30:50 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_minishell
 // Function Prototypes BEGIN
 void						debug_parsed_structure(t_pipe_list *pipe_list);
 
-
 // init_mini
 t_env						*new_env_node(char *key, char *value);
 t_env						*env_from_envp(char **envp);
@@ -131,7 +130,8 @@ char						*append_char(char *str, char c);
 // expander_utils.c
 int							get_var_len(char *str);
 char						*ft_strjoin_gc(char *s1, char *s2);
-char						*get_env_value(t_env *env, const char *key, int var_len);
+char						*get_env_value(t_env *env, const char *key,
+								int var_len);
 
 //----------PARSING----------//
 
@@ -139,10 +139,16 @@ char						*get_env_value(t_env *env, const char *key, int var_len);
 bool						parsing(t_minishell *mini, char *user_input);
 void						parse_tokens_to_pipe_list(t_minishell *mini);
 void						add_word_to_cmd(t_pipe *pipe, char *word);
-void						add_redirection(t_pipe *pipe, t_token_type type, char *filename);
+void						add_redirection(t_pipe *pipe, t_token_type type,
+								char *filename);
 
 // parsing_utils.c
 t_pipe						*create_pipe(void);
 void						add_pipe_to_list(t_pipe_list *list, t_pipe *pipe);
+
+//----------EXECUTION----------//
+
+// execution.c
+
 
 #endif

@@ -45,16 +45,20 @@ PARSING_REPO := $(addprefix parsing/, $(PARSING_FILES))
 DUMMY_FILES :=  dummy_file.c
 DUMMY_REPO := $(addprefix dummy_repo/, $(DUMMY_FILES))
 
+EXECUTION_FILES := execution.c execution_utils.c
+EXECUTION_REPO := $(addprefix execution/, $(EXECUTION_FILES))
+
 #Combines all
 MELTING_POT :=	$(SRC_REPO) \
 				$(SRC_FILES) \
 				$(DUMMY_REPO) \
 				$(LEXER_EXPANDER_REPO) \
-				$(PARSING_REPO)
+				$(PARSING_REPO) \
+				$(EXECUTION_REPO)
 
 # SRCS := $(MAIN_FILE) $(addprefix src/, $(MELTING_POT))
 SRC_IN_SRC := $(SRC_FILES) $(DUMMY_REPO)
-SRCS := $(MAIN_FILE) $(addprefix src/, $(SRC_IN_SRC)) $(LEXER_EXPANDER_REPO) $(PARSING_REPO)
+SRCS := $(MAIN_FILE) $(addprefix src/, $(SRC_IN_SRC)) $(LEXER_EXPANDER_REPO) $(PARSING_REPO) $(EXECUTION_REPO)
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 
