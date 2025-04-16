@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 03:26:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/16 06:29:45 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/16 07:01:04 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_heredoc(t_redirection *redir)
 	}
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("heredoc> ");
 		if (!line)
 			break;
 		if (ft_strcmp(line, redir->name_of_file_to_redirect) == 0)
@@ -96,7 +96,8 @@ void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-	handle_redirections(cmd->list_of_redirections ? cmd->list_of_redirections->head : NULL);	if (!cmd->cmd || !cmd->cmd[0])
+	handle_redirections(cmd->list_of_redirections ? cmd->list_of_redirections->head : NULL);
+	if (!cmd->cmd || !cmd->cmd[0])
 		exit(0);
 	path = get_full_path(cmd->cmd[0], mini->env);
 	if (!path)
