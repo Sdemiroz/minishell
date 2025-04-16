@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 03:26:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/15 20:00:33 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/16 06:29:45 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	handle_redirections(t_redirection *redir)
 void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 {
 	char	*path;
+	char	**env_array;
 
 	if (prev_fd != -1)
 	{
@@ -104,7 +105,8 @@ void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 		ft_putendl_fd(cmd->cmd[0], 2);
 		exit(127);
 	}
-	execve(path, cmd->cmd, mini->env);
+	env_array = env_to_array(mini->env);
+	execve(path, cmd->cmd, env_array);
 	perror("execve");
 	exit(1);
 }
@@ -133,12 +135,12 @@ void	execution(t_minishell *mini)
 	while (cmd)
 	{
 		if (cmd->next && pipe(pipe_fd) == -1)
-			return (perror("pipe"));
+			return;
 		pid = fork();
 		if (pid == 0)
 			child_exec(cmd, prev_fd, cmd->next ? pipe_fd : NULL, mini);
 		else if (pid < 0)
-			return (perror("fork"));
+			return;
 		close_pipe_fds(&prev_fd, cmd->next ? pipe_fd : NULL);
 		cmd = cmd->next;
 	}

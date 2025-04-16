@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/15 19:55:41 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/16 06:35:25 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,16 @@ void						add_pipe_to_list(t_pipe_list *list, t_pipe *pipe);
 
 // execution.c
 void						handle_heredoc(t_redirection *redir);
-void						handle_redirections(t_redirection *redir);
+void						handle_redirections(t_redirection *redir_list);
 void						child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini);
 void						close_pipe_fds(int *prev_fd, int *pipe_fd);
 void						execution(t_minishell *mini);
 
+// execution_utils.c
+char						*get_full_path(char *cmd, t_env *env);
+char						**env_to_array(t_env *env);
+char						**get_paths(t_env *env);
+char						*ft_strjoin_path(char *path, char *cmd);
+void						free_paths(char **paths);
 
 #endif
