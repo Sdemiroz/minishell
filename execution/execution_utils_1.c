@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 20:01:16 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/16 06:36:31 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/19 03:06:54 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ char	**env_to_array(t_env *env)
 	current = env;
 	while (current)
 	{
-		env_array[i] = ft_strjoin_gc(ft_strjoin_gc(current->key, "="),
+		env_array[i++] = ft_strjoin_gc(ft_strjoin_gc(current->key, "="),
 				current->value);
-		i++;
 		current = current->next;
 	}
 	env_array[i] = NULL;

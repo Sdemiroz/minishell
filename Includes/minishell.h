@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/16 06:35:25 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/19 06:25:02 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,11 +157,16 @@ void						child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini);
 void						close_pipe_fds(int *prev_fd, int *pipe_fd);
 void						execution(t_minishell *mini);
 
-// execution_utils.c
+// execution_utils_1.c
 char						*get_full_path(char *cmd, t_env *env);
 char						**env_to_array(t_env *env);
 char						**get_paths(t_env *env);
 char						*ft_strjoin_path(char *path, char *cmd);
 void						free_paths(char **paths);
+
+// execution_utils_2.c
+void						process_fd_redirection(t_redirection *redir, int fd);
+int							open_redirection_file(t_redirection *redir);
+
 
 #endif

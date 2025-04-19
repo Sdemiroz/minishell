@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 03:26:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/16 07:01:04 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/19 06:24:05 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	handle_heredoc(t_redirection *redir)
 	{
 		line = readline("heredoc> ");
 		if (!line)
-			break;
+			break ;
 		if (ft_strcmp(line, redir->name_of_file_to_redirect) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(pipe_fd[1], line, ft_strlen(line));
 		write(pipe_fd[1], "\n", 1);
@@ -41,10 +41,9 @@ void	handle_heredoc(t_redirection *redir)
 	close(pipe_fd[0]);
 }
 
-
-void	handle_redirections(t_redirection *redir)
+void handle_redirections(t_redirection *redir)
 {
-	int	fd;
+	int fd;
 
 	while (redir)
 	{
@@ -54,31 +53,18 @@ void	handle_redirections(t_redirection *redir)
 			redir = redir->next;
 			continue;
 		}
-		if (redir->redirection_type == REDIR_IN)
-			fd = open(redir->name_of_file_to_redirect, O_RDONLY);
-		else if (redir->redirection_type == REDIR_OUT)
-			fd = open(redir->name_of_file_to_redirect, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (redir->redirection_type == REDIR_APPEND)
-			fd = open(redir->name_of_file_to_redirect, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
+		fd = open_redirection_file(redir);
+		if (fd == -1 && redir->redirection_type != REDIR_IN &&
+			redir->redirection_type != REDIR_OUT &&
+			redir->redirection_type != REDIR_APPEND)
 		{
 			redir = redir->next;
 			continue;
 		}
-		if (fd == -1)
-		{
-			perror(redir->name_of_file_to_redirect);
-			exit(1);
-		}
-		if (redir->redirection_type == REDIR_IN)
-			dup2(fd, STDIN_FILENO);
-		else
-			dup2(fd, STDOUT_FILENO);
-		close(fd);
+		process_fd_redirection(redir, fd);
 		redir = redir->next;
 	}
 }
-
 
 void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 {
@@ -96,11 +82,11 @@ void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-	handle_redirections(cmd->list_of_redirections ? cmd->list_of_redirections->head : NULL);
+	if (cmd->list_of_redirections)
+		handle_redirections(cmd->list_of_redirections->head);
 	if (!cmd->cmd || !cmd->cmd[0])
 		exit(0);
-	path = get_full_path(cmd->cmd[0], mini->env);
-	if (!path)
+	if (!(path = get_full_path(cmd->cmd[0], mini->env)))
 	{
 		ft_putstr_fd("command not found: ", 2);
 		ft_putendl_fd(cmd->cmd[0], 2);
@@ -128,6 +114,7 @@ void	execution(t_minishell *mini)
 	t_pipe	*cmd;
 	int		pipe_fd[2];
 	int		prev_fd;
+	int		*pipe_ptr;
 	pid_t	pid;
 	int		status;
 
@@ -135,14 +122,16 @@ void	execution(t_minishell *mini)
 	prev_fd = -1;
 	while (cmd)
 	{
+		pipe_ptr = NULL;
 		if (cmd->next && pipe(pipe_fd) == -1)
-			return;
-		pid = fork();
-		if (pid == 0)
-			child_exec(cmd, prev_fd, cmd->next ? pipe_fd : NULL, mini);
+			return ;
+		if (cmd->next)
+			pipe_ptr = pipe_fd;
+		if ((pid = fork()) == 0)
+			child_exec(cmd, prev_fd, pipe_ptr, mini);
 		else if (pid < 0)
-			return;
-		close_pipe_fds(&prev_fd, cmd->next ? pipe_fd : NULL);
+			return ;
+		close_pipe_fds(&prev_fd, pipe_ptr);
 		cmd = cmd->next;
 	}
 	while (wait(&status) != -1)
