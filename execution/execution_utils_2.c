@@ -6,21 +6,21 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 03:07:30 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/19 06:24:48 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/19 21:06:09 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		open_redirection_file(t_redirection *redir)
+int	open_redirection_file(t_redirection *redir)
 {
-	int fd;
+	int	fd;
 
 	if (redir->redirection_type == REDIR_IN)
 		fd = open(redir->name_of_file_to_redirect, O_RDONLY);
 	else if (redir->redirection_type == REDIR_OUT)
-		fd = open(redir->name_of_file_to_redirect,
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(redir->name_of_file_to_redirect, O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
 	else if (redir->redirection_type == REDIR_APPEND)
 		fd = open(redir->name_of_file_to_redirect,
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -41,4 +41,34 @@ void	process_fd_redirection(t_redirection *redir, int fd)
 	else
 		dup2(fd, STDOUT_FILENO);
 	close(fd);
+}
+
+bool	is_builtin(char *cmd)
+{
+	if (!cmd)
+		return(false);
+	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "echo") || !ft_strcmp(cmd,
+			"env") || !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "unset"));
+}
+
+int		execute_builtin(char **cmd, t_minishell *mini)
+{
+	(void)cmd;
+	(void)mini;
+	// if (!ft_strcmp(cmd[0], "cd"))
+	// 	return (ft_cd(cmd, mini));
+	// else if (!ft_strcmp(cmd[0], "echo"))
+	// 	return (ft_echo(cmd, mini));
+	// else if (!ft_strcmp(cmd[0], "env"))
+	// 	return (ft_env(cmd, mini));
+	// else if (!ft_strcmp(cmd[0], "exit"))
+	// 	return (ft_exit(cmd, mini));
+	// else if (!ft_strcmp(cmd[0], "export"))
+	// 	return (ft_export(cmd, mini));
+	// else if (!ft_strcmp(cmd[0], "unset"))
+	// 	return (ft_unset(cmd, mini));
+	// else if (!ft_strcmp(cmd[0], "pwd"))
+	// 	return (ft_pwd(cmd, mini));
+	return(1);
 }

@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 03:26:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/19 06:24:05 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/19 21:02:49 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 		ft_putendl_fd(cmd->cmd[0], 2);
 		exit(127);
 	}
+	if (is_builtin(cmd->cmd[0]))
+		exit(execute_builtin(cmd->cmd, mini));
 	env_array = env_to_array(mini->env);
 	execve(path, cmd->cmd, env_array);
 	perror("execve");
@@ -119,6 +121,12 @@ void	execution(t_minishell *mini)
 	int		status;
 
 	cmd = mini->pipe_list->head;
+	if (mini->pipe_list->size_of_list == 1 && cmd->cmd && is_builtin(cmd->cmd[0]))
+	{
+		handle_redirections(cmd->list_of_redirections->head);
+		mini->exit_code = execute_builtin(cmd->cmd, mini);
+		return ;
+	}
 	prev_fd = -1;
 	while (cmd)
 	{

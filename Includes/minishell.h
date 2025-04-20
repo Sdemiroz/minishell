@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/19 06:25:02 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:42:04 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void						free_paths(char **paths);
 // execution_utils_2.c
 void						process_fd_redirection(t_redirection *redir, int fd);
 int							open_redirection_file(t_redirection *redir);
-
+bool						is_builtin(char *cmd);
+int							execute_builtin(char **cmd, t_minishell *mini);
 
 #endif
