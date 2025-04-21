@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 04:31:24 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 04:33:32 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:25:46 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,20 @@ void	process_builtin(t_pipe *cmd, t_minishell *mini)
 	mini->exit_code = execute_builtin(cmd->cmd, mini);
 }
 
-void	wait_for_children(t_minishell *mini)
+void wait_for_children(t_minishell *mini)
 {
-	int	status;
+    int status;
+    pid_t last_pid;
 
-	while (wait(&status) != -1)
-		mini->exit_code = WEXITSTATUS(status);
+    // Only set the exit code from the last command in the pipeline
+    while ((last_pid = wait(&status)) != -1)
+    {
+        if (WIFEXITED(status))
+            mini->exit_code = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            mini->exit_code = 128 + WTERMSIG(status);
+    }
+	printf("DEBUG: Exit code set to %d\n", mini->exit_code);
 }
 
 void	prepare_pipes(t_pipe *cmd, int *pipe_fd, int **pipe_ptr)
