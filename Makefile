@@ -34,7 +34,7 @@ MAIN_FILE := main.c
 
 # SRC_TEST_MAIN := main_tests.c
 
-SRC_FILES := init_mini.c tests.c
+SRC_FILES := init_mini.c tests.c signals.c
 
 LEXER_EXPANDER_FILES := lexer.c read_tokens.c expander.c expander_utils.c
 LEXER_EXPANDER_REPO := $(addprefix lexer_expander/, $(LEXER_EXPANDER_FILES))
@@ -42,14 +42,11 @@ LEXER_EXPANDER_REPO := $(addprefix lexer_expander/, $(LEXER_EXPANDER_FILES))
 PARSING_FILES := parsing.c parsing_utils.c
 PARSING_REPO := $(addprefix parsing/, $(PARSING_FILES))
 
-DUMMY_FILES :=  dummy_file.c
-DUMMY_REPO := $(addprefix dummy_repo/, $(DUMMY_FILES))
-
 EXECUTION_FILES := execution.c execution_utils_1.c execution_utils_2.c
 EXECUTION_REPO := $(addprefix execution/, $(EXECUTION_FILES))
 
-# BUILT_INS_FILES := cd.c echo.c env.c exit.c export.c pwd.c unset.c
-# BUILT_INS_REPO := $(addprefix build_ins/, $(BUILT_INS_FILES))
+BUILT_INS_FILES := cd.c echo.c env.c exit.c export.c pwd.c unset.c
+BUILT_INS_REPO := $(addprefix built_ins/, $(BUILT_INS_FILES))
 
 #Combines all
 MELTING_POT :=	$(SRC_REPO) \
@@ -58,11 +55,11 @@ MELTING_POT :=	$(SRC_REPO) \
 				$(LEXER_EXPANDER_REPO) \
 				$(PARSING_REPO) \
 				$(EXECUTION_REPO) \
-				# $(BUILT_INS_REPO)
+				$(BUILT_INS_REPO)
 
 # SRCS := $(MAIN_FILE) $(addprefix src/, $(MELTING_POT))
-SRC_IN_SRC := $(SRC_FILES) $(DUMMY_REPO)
-SRCS := $(MAIN_FILE) $(addprefix src/, $(SRC_IN_SRC)) $(LEXER_EXPANDER_REPO) $(PARSING_REPO) $(EXECUTION_REPO)
+SRC_IN_SRC := $(SRC_FILES)
+SRCS := $(MAIN_FILE) $(addprefix src/, $(SRC_IN_SRC)) $(LEXER_EXPANDER_REPO) $(PARSING_REPO) $(EXECUTION_REPO) $(BUILT_INS_REPO)
 
 OBJS := $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
 

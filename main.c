@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/15 19:56:40 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 01:41:36 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (1)
 	{
-		// TODO: init signals
+		init_signals();
 		user_input = readline("Minishell Samed $ ");
 		if (!user_input)
 			break ;

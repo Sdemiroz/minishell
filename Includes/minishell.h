@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/19 20:42:04 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 03:53:36 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <signal.h>
+# include <termios.h>
 
 typedef struct s_env
 {
@@ -104,6 +106,14 @@ void						free_parts(char **parts);
 bool						quotes_error(char *user_input);
 bool						syntax_error_check(t_token *token_head);
 
+// signals.c
+void						disable_echoctl(void);
+void						sigint_handler(int signal);
+void						sigquit_handler(int signal);
+void						sigchld_handler(int signal);
+void						init_signals(void);
+
+
 //----------LEXER----------//
 
 // lexer.c
@@ -169,5 +179,35 @@ void						process_fd_redirection(t_redirection *redir, int fd);
 int							open_redirection_file(t_redirection *redir);
 bool						is_builtin(char *cmd);
 int							execute_builtin(char **cmd, t_minishell *mini);
+
+//----------BUILT_INS----------//
+
+// cd.c
+void						update_env_value(t_env *env, const char *key, const char *value);
+void						add_env_node(t_env **env, const char *key, const char *value);
+void						set_env_value(t_env **env, const char *key, const char *value);
+int							ft_cd(char **args, t_minishell *mini);
+
+// echo.c
+int							ft_echo(char **args, t_minishell *mini);
+
+// env.c
+int							ft_env(char **args, t_minishell *mini);
+
+// exit.c
+int							is_numeric(const char *str);
+int							ft_exit(char **args, t_minishell *mini);
+
+// export.c
+void						sort_string_array(char **array);
+void						print_export(t_env *env);
+int							ft_export(char **args, t_minishell *mini);
+
+// pwd.c
+int							ft_pwd(char **args, t_minishell *mini);
+
+// unset.c
+int							ft_unset(char **args, t_minishell *mini);
+
 
 #endif

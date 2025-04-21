@@ -6,12 +6,11 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 08:25:36 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/19 21:04:32 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:10:15 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int	ft_env(char **args, t_minishell *mini)
 {
@@ -21,8 +20,7 @@ int	ft_env(char **args, t_minishell *mini)
 	(void)args;
 	env_arr = env_to_array(mini->env);
 	if (!env_arr)
-		return (1); // return non-zero on error
-
+		return (1);
 	i = 0;
 	while (env_arr[i])
 	{
