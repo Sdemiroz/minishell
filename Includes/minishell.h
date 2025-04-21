@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 06:05:06 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 06:12:26 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,8 @@ int							ft_exit(char **args, t_minishell *mini);
 void						sort_string_array(char **array);
 void						print_export(t_env *env);
 int							ft_export(char **args, t_minishell *mini);
+int							bubble_pass(char **array, int pass, int len);
+void						handle_export_arg(t_minishell *mini, char *arg);
 
 // pwd.c
 int							ft_pwd(char **args, t_minishell *mini);

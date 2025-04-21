@@ -6,37 +6,48 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 08:24:49 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 04:11:21 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 06:13:30 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	bubble_pass(char **array, int pass, int len)
+{
+	int		j;
+	int		swapped;
+	char	*temp;
+
+	j = 0;
+	swapped = 0;
+	while (j < len - pass - 1)
+	{
+		if (ft_strcmp(array[j], array[j + 1]) > 0)
+		{
+			temp = array[j];
+			array[j] = array[j + 1];
+			array[j + 1] = temp;
+			swapped = 1;
+		}
+		j++;
+	}
+	return (swapped);
+}
+
 void	sort_string_array(char **array)
 {
-	int		len;
-	char	*temp;
-	int		swapped;
-	int i, j;
+	int	len;
+	int	i;
 
 	len = 0;
 	while (array[len])
 		len++;
-	for (i = 0; i < len - 1; i++)
+	i = 0;
+	while (i < len - 1)
 	{
-		swapped = 0;
-		for (j = 0; j < len - i - 1; j++)
-		{
-			if (ft_strcmp(array[j], array[j + 1]) > 0)
-			{
-				temp = array[j];
-				array[j] = array[j + 1];
-				array[j + 1] = temp;
-				swapped = 1;
-			}
-		}
-		if (swapped == 0)
+		if (!bubble_pass(array, i, len))
 			break ;
+		i++;
 	}
 }
 
@@ -56,7 +67,7 @@ void	print_export(t_env *env)
 		{
 			*eq = '\0';
 			printf("declare -x %s=\"%s\"\n", arr[i], eq + 1);
-			*eq = '='; // restore original
+			*eq = '=';
 		}
 		else
 			printf("declare -x %s\n", arr[i]);
@@ -64,12 +75,28 @@ void	print_export(t_env *env)
 	}
 }
 
-int	ft_export(char **args, t_minishell *mini)
+void	handle_export_arg(t_minishell *mini, char *arg)
 {
-	int		i;
+	char	*eq;
 	char	*key;
 	char	*value;
-	char	*eq;
+
+	eq = ft_strchr(arg, '=');
+	if (eq)
+	{
+		*eq = '\0';
+		key = arg;
+		value = eq + 1;
+		set_env_value(&mini->env, key, value);
+		*eq = '=';
+	}
+	else
+		set_env_value(&mini->env, arg, "");
+}
+
+int	ft_export(char **args, t_minishell *mini)
+{
+	int	i;
 
 	if (!args[1])
 	{
@@ -79,17 +106,7 @@ int	ft_export(char **args, t_minishell *mini)
 	i = 1;
 	while (args[i])
 	{
-		eq = ft_strchr(args[i], '=');
-		if (eq)
-		{
-			*eq = '\0';
-			key = args[i];
-			value = eq + 1;
-			set_env_value(&mini->env, key, value);
-			*eq = '='; // restore in case it's reused
-		}
-		else
-			set_env_value(&mini->env, args[i], ""); // just add empty var
+		handle_export_arg(mini, args[i]);
 		i++;
 	}
 	return (0);
