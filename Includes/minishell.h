@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 03:53:36 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 05:01:19 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <signal.h>
 # include <termios.h>
+# include <unistd.h>
 
 typedef struct s_env
 {
@@ -54,12 +54,12 @@ typedef struct s_token // struct to save tokens during tokenization
 	struct s_token *next;
 }							t_token;
 
-	typedef struct s_redirection
-	{
-		t_token_type			redirection_type;
-		char					*name_of_file_to_redirect;
-		struct s_redirection	*next;
-	}							t_redirection;
+typedef struct s_redirection
+{
+	t_token_type			redirection_type;
+	char					*name_of_file_to_redirect;
+	struct s_redirection	*next;
+}							t_redirection;
 
 typedef struct s_redirection_list
 {
@@ -113,7 +113,6 @@ void						sigquit_handler(int signal);
 void						sigchld_handler(int signal);
 void						init_signals(void);
 
-
 //----------LEXER----------//
 
 // lexer.c
@@ -144,12 +143,18 @@ int							get_var_len(char *str);
 char						*ft_strjoin_gc(char *s1, char *s2);
 char						*get_env_value(t_env *env, const char *key,
 								int var_len);
+int							handle_special_expansion(char **expanded,
+								char *start, int exit_code);
+int							handle_non_alpha_expansion(char **expanded,
+								char *start);
 
 //----------PARSING----------//
 
 // parsing.c
 bool						parsing(t_minishell *mini, char *user_input);
 void						parse_tokens_to_pipe_list(t_minishell *mini);
+void						handle_redirection_token(t_pipe *pipe,
+								t_token **curr);
 void						add_word_to_cmd(t_pipe *pipe, char *word);
 void						add_redirection(t_pipe *pipe, t_token_type type,
 								char *filename);
@@ -157,13 +162,16 @@ void						add_redirection(t_pipe *pipe, t_token_type type,
 // parsing_utils.c
 t_pipe						*create_pipe(void);
 void						add_pipe_to_list(t_pipe_list *list, t_pipe *pipe);
+void						add_first_word(t_pipe *pipe, char *word);
+void						copy_cmd_array(char **new_cmd, char **cmd, int count);
 
 //----------EXECUTION----------//
 
 // execution.c
 void						handle_heredoc(t_redirection *redir);
 void						handle_redirections(t_redirection *redir_list);
-void						child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini);
+void						child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd,
+								t_minishell *mini);
 void						close_pipe_fds(int *prev_fd, int *pipe_fd);
 void						execution(t_minishell *mini);
 
@@ -175,17 +183,32 @@ char						*ft_strjoin_path(char *path, char *cmd);
 void						free_paths(char **paths);
 
 // execution_utils_2.c
-void						process_fd_redirection(t_redirection *redir, int fd);
+void						process_fd_redirection(t_redirection *redir,
+								int fd);
 int							open_redirection_file(t_redirection *redir);
 bool						is_builtin(char *cmd);
 int							execute_builtin(char **cmd, t_minishell *mini);
+void						execute_command(t_pipe *cmd, t_minishell *mini);
+
+// execution_utils_3.c
+void						setup_io_for_child(t_pipe *cmd, int prev_fd,
+								int *pipe_fd);
+void						execute_pipeline(t_minishell *mini, t_pipe *cmd,
+								int prev_fd);
+void						process_builtin(t_pipe *cmd, t_minishell *mini);
+void						wait_for_children(t_minishell *mini);
+void						prepare_pipes(t_pipe *cmd, int *pipe_fd,
+								int **pipe_ptr);
 
 //----------BUILT_INS----------//
 
 // cd.c
-void						update_env_value(t_env *env, const char *key, const char *value);
-void						add_env_node(t_env **env, const char *key, const char *value);
-void						set_env_value(t_env **env, const char *key, const char *value);
+void						update_env_value(t_env *env, const char *key,
+								const char *value);
+void						add_env_node(t_env **env, const char *key,
+								const char *value);
+void						set_env_value(t_env **env, const char *key,
+								const char *value);
 int							ft_cd(char **args, t_minishell *mini);
 
 // echo.c
@@ -208,6 +231,5 @@ int							ft_pwd(char **args, t_minishell *mini);
 
 // unset.c
 int							ft_unset(char **args, t_minishell *mini);
-
 
 #endif

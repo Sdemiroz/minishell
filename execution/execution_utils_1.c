@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*   execution_utils_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 20:01:16 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/19 03:06:54 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:18:11 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	**env_to_array(t_env *env)
 	env_array[i] = NULL;
 	return (env_array);
 }
+
 char	**get_paths(t_env *env)
 {
 	char	*path_value;
@@ -98,11 +99,10 @@ char	*ft_strjoin_path(char *path, char *cmd)
 
 void	free_paths(char **paths)
 {
-	int i;
+	int	i;
 
 	if (!paths)
 		return ;
-
 	i = 0;
 	while (paths[i])
 	{

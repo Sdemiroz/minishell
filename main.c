@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 01:41:36 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 05:03:03 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	main_routine(t_minishell *mini, char *user_input)
 		return ;
 	}
 	if (!mini->pipe_list)
-		return;
+		return ;
 	else
 		execution(mini);
 }

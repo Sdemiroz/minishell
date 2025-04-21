@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 04:58:56 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/14 23:06:28 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 05:01:37 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,45 +41,41 @@ void	add_redirection(t_pipe *pipe, t_token_type type, char *filename)
 void	add_word_to_cmd(t_pipe *pipe, char *word)
 {
 	int		x;
-	int		y;
 	char	**new_cmd;
 
 	if (!pipe || !word)
 		return ;
 	if (!pipe->cmd)
 	{
-		pipe->cmd = ft_malloc_local(sizeof(char *) * 2);
-		if (!pipe->cmd)
-			return ;
-		pipe->cmd[0] = ft_strdup(word);
-		gc_add_local(pipe->cmd[0]);
-		pipe->cmd[1] = NULL;
+		add_first_word(pipe, word);
+		return ;
 	}
-	else
-	{
-		x = 0;
-		while (pipe->cmd[x])
-			x++;
-		new_cmd = ft_malloc_local(sizeof(char *) * (size_t)(x + 2));
-		if (!new_cmd)
-			return ;
-		y = 0;
-		while (y < x)
-		{
-			new_cmd[y] = pipe->cmd[y];
-			y++;
-		}
-		new_cmd[x] = ft_strdup(word);
-		gc_add_local(new_cmd[x]);
-		new_cmd[x + 1] = NULL;
-		pipe->cmd = new_cmd;
-	}
+	x = 0;
+	while (pipe->cmd[x])
+		x++;
+	new_cmd = ft_malloc_local(sizeof(char *) * (size_t)(x + 2));
+	if (!new_cmd)
+		return ;
+	copy_cmd_array(new_cmd, pipe->cmd, x);
+	new_cmd[x] = ft_strdup(word);
+	gc_add_local(new_cmd[x]);
+	new_cmd[x + 1] = NULL;
+	pipe->cmd = new_cmd;
+}
+
+void	handle_redirection_token(t_pipe *pipe, t_token **curr)
+{
+	t_token	*target;
+
+	target = (*curr)->next;
+	if (target && target->type == WORD)
+		add_redirection(pipe, (*curr)->type, target->value);
+	*curr = (*curr)->next;
 }
 
 void	parse_tokens_to_pipe_list(t_minishell *mini)
 {
 	t_token	*curr;
-	t_token	*target;
 	t_pipe	*current_pipe;
 
 	curr = mini->tokens;
@@ -97,12 +93,7 @@ void	parse_tokens_to_pipe_list(t_minishell *mini)
 		else if (curr->type == WORD)
 			add_word_to_cmd(current_pipe, curr->value);
 		else if (curr->type >= REDIR_IN && curr->type <= REDIR_HEREDOC)
-		{
-			target = curr->next;
-			if (target && target->type == WORD)
-				add_redirection(current_pipe, curr->type, target->value);
-			curr = curr->next;
-		}
+			handle_redirection_token(current_pipe, &curr);
 		curr = curr->next;
 	}
 }

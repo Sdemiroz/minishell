@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/14 21:56:32 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 05:04:54 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	free_parts(char **parts)
 	int	x;
 
 	x = 0;
-	if(!parts)
-		return;
-	while(parts[x])
+	if (!parts)
+		return ;
+	while (parts[x])
 	{
 		free(parts[x]);
 		x++;
@@ -56,7 +56,6 @@ void	append_env_node(t_env **head, t_env **tail, char **parts)
 	*tail = new;
 }
 
-
 t_env	*env_from_envp(char **envp)
 {
 	t_env	*head;
@@ -72,7 +71,7 @@ t_env	*env_from_envp(char **envp)
 		parts = ft_split(envp[i], '=');
 		if (!parts || !parts[0] || !parts[1])
 		{
-			if(parts)
+			if (parts)
 				free_parts(parts);
 			i++;
 			continue ;
@@ -84,6 +83,7 @@ t_env	*env_from_envp(char **envp)
 	}
 	return (head);
 }
+
 t_minishell	*init_mini(char **envp)
 {
 	t_minishell	*mini;

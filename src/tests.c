@@ -6,18 +6,11 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:45:38 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/14 21:07:30 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 05:06:17 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
- * quotes_error: Checks if the given user input string has unmatched single or double quotes.
- * Returns true if an open quote is found, false otherwise.
- * Handles nested quotes by toggling quote status only when not inside a conflicting quote type.
- * Treats quotes within other quotes as regular characters.
- */
 
 bool	quotes_error(char *user_input)
 {
@@ -28,7 +21,7 @@ bool	quotes_error(char *user_input)
 	i = 0;
 	single_quote_status = false;
 	double_quote_status = false;
-	while(user_input[i])
+	while (user_input[i])
 	{
 		if (user_input[i] == '\'')
 		{
@@ -47,24 +40,25 @@ bool	quotes_error(char *user_input)
 
 bool	syntax_error_check(t_token *token_head)
 {
-	t_token		*temp;
+	t_token	*temp;
 
 	temp = token_head;
 	if (temp->type == PIPE)
-		return(true);
-	while(temp)
+		return (true);
+	while (temp)
 	{
-		if(temp->type == PIPE)
+		if (temp->type == PIPE)
 		{
 			if (!temp->next || temp->next->type == PIPE)
-				return(true);
+				return (true);
 		}
-		if(temp->type == REDIR_IN || temp->type == REDIR_OUT || temp->type == REDIR_APPEND || temp->type == REDIR_HEREDOC)
+		if (temp->type == REDIR_IN || temp->type == REDIR_OUT
+			|| temp->type == REDIR_APPEND || temp->type == REDIR_HEREDOC)
 		{
 			if (!temp->next || temp->next->type != WORD)
-				return(true);
+				return (true);
 		}
 		temp = temp->next;
 	}
-	return(false);
+	return (false);
 }

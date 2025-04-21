@@ -6,16 +6,15 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:56:36 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/09 03:19:07 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:38:21 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 void	skip_spaces(char *user_input, int *i)
 {
-	while(user_input[*i] && ft_isspace(user_input[*i]))
+	while (user_input[*i] && ft_isspace(user_input[*i]))
 	{
 		(*i)++;
 	}
@@ -25,7 +24,7 @@ void	add_token_to_back(t_token **head_token, t_token *new_token)
 {
 	t_token	*temp;
 
-	if (!head_token || !new_token) // Safety check for NULL parameters
+	if (!head_token || !new_token)
 		return ;
 	if (*head_token == NULL)
 		*head_token = new_token;

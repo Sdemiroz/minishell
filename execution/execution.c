@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 03:26:04 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/19 21:02:49 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:36:22 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	handle_heredoc(t_redirection *redir)
 	close(pipe_fd[0]);
 }
 
-void handle_redirections(t_redirection *redir)
+void	handle_redirections(t_redirection *redir)
 {
-	int fd;
+	int	fd;
 
 	while (redir)
 	{
@@ -51,15 +51,15 @@ void handle_redirections(t_redirection *redir)
 		{
 			handle_heredoc(redir);
 			redir = redir->next;
-			continue;
+			continue ;
 		}
 		fd = open_redirection_file(redir);
-		if (fd == -1 && redir->redirection_type != REDIR_IN &&
-			redir->redirection_type != REDIR_OUT &&
-			redir->redirection_type != REDIR_APPEND)
+		if (fd == -1 && redir->redirection_type != REDIR_IN
+			&& redir->redirection_type != REDIR_OUT
+			&& redir->redirection_type != REDIR_APPEND)
 		{
 			redir = redir->next;
-			continue;
+			continue ;
 		}
 		process_fd_redirection(redir, fd);
 		redir = redir->next;
@@ -68,36 +68,8 @@ void handle_redirections(t_redirection *redir)
 
 void	child_exec(t_pipe *cmd, int prev_fd, int *pipe_fd, t_minishell *mini)
 {
-	char	*path;
-	char	**env_array;
-
-	if (prev_fd != -1)
-	{
-		dup2(prev_fd, STDIN_FILENO);
-		close(prev_fd);
-	}
-	if (cmd->next)
-	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	}
-	if (cmd->list_of_redirections)
-		handle_redirections(cmd->list_of_redirections->head);
-	if (!cmd->cmd || !cmd->cmd[0])
-		exit(0);
-	if (!(path = get_full_path(cmd->cmd[0], mini->env)))
-	{
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd(cmd->cmd[0], 2);
-		exit(127);
-	}
-	if (is_builtin(cmd->cmd[0]))
-		exit(execute_builtin(cmd->cmd, mini));
-	env_array = env_to_array(mini->env);
-	execve(path, cmd->cmd, env_array);
-	perror("execve");
-	exit(1);
+	setup_io_for_child(cmd, prev_fd, pipe_fd);
+	execute_command(cmd, mini);
 }
 
 void	close_pipe_fds(int *prev_fd, int *pipe_fd)
@@ -114,34 +86,16 @@ void	close_pipe_fds(int *prev_fd, int *pipe_fd)
 void	execution(t_minishell *mini)
 {
 	t_pipe	*cmd;
-	int		pipe_fd[2];
 	int		prev_fd;
-	int		*pipe_ptr;
-	pid_t	pid;
-	int		status;
 
 	cmd = mini->pipe_list->head;
-	if (mini->pipe_list->size_of_list == 1 && cmd->cmd && is_builtin(cmd->cmd[0]))
+	if (mini->pipe_list->size_of_list == 1 && cmd->cmd
+		&& is_builtin(cmd->cmd[0]))
 	{
-		handle_redirections(cmd->list_of_redirections->head);
-		mini->exit_code = execute_builtin(cmd->cmd, mini);
+		process_builtin(cmd, mini);
 		return ;
 	}
 	prev_fd = -1;
-	while (cmd)
-	{
-		pipe_ptr = NULL;
-		if (cmd->next && pipe(pipe_fd) == -1)
-			return ;
-		if (cmd->next)
-			pipe_ptr = pipe_fd;
-		if ((pid = fork()) == 0)
-			child_exec(cmd, prev_fd, pipe_ptr, mini);
-		else if (pid < 0)
-			return ;
-		close_pipe_fds(&prev_fd, pipe_ptr);
-		cmd = cmd->next;
-	}
-	while (wait(&status) != -1)
-		mini->exit_code = WEXITSTATUS(status);
+	execute_pipeline(mini, cmd, prev_fd);
+	wait_for_children(mini);
 }

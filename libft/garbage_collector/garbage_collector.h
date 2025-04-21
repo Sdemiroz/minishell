@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 01:07:52 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 19:21:22 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:47:09 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ void					gc_free_all(void);
 void					gc_print_linked_list(t_garbage_collector *gc);
 void					gc_add_to(t_garbage_collector *gc, void *ptr);
 void					gc_free_gc(t_garbage_collector *gc);
-t_gc_node 				*gc_create_node(void *ptr);
+t_gc_node				*gc_create_node(void *ptr);
 t_double_gc				*get_gc(void);
 void					ft_error(char *msg, char *file, int line,
 							uint8_t exit_stat);
 void					main_cleanup(uint8_t exit_stat);
 t_garbage_collector		*gc_init_garbage_collector(void);
-
 
 #endif

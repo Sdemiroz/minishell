@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 01:09:01 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 18:15:00 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:47:52 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,24 @@ void	gc_print_linked_list(t_garbage_collector *gc)
 	return ;
 }
 
-void	*ft_malloc(size_t size)
-{
-	return ft_malloc_local(size);
-}
 void	*ft_malloc_global(size_t size)
 {
-	void *ptr = malloc(size);
+	void	*ptr;
+
+	ptr = malloc(size);
 	if (!ptr)
 		ft_error("malloc fail", __FILE__, __LINE__, 1);
 	gc_add_global(ptr);
-	return ptr;
+	return (ptr);
 }
 
 void	*ft_malloc_local(size_t size)
 {
-	void *ptr = malloc(size);
+	void	*ptr;
+
+	ptr = malloc(size);
 	if (!ptr)
 		ft_error("malloc fail", __FILE__, __LINE__, 1);
 	gc_add_local(ptr);
-	return ptr;
+	return (ptr);
 }

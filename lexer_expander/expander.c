@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:12:53 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/15 03:16:19 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:45:11 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,41 +40,17 @@ int	handle_expansion(char **expanded, char *start, t_env *env, int exit_code)
 {
 	char	*key;
 	char	*value;
-	char	*exit_str;
 	int		var_len;
-	int		skip;
+	int		special_result;
 
-	if (start[1] == '?')
-	{
-		exit_str = ft_itoa(exit_code);
-		gc_add_local(exit_str);
-		*expanded = ft_strjoin_gc(*expanded, exit_str);
-		return (2);
-	}
-	else if (start[1] == '$')
-	{
-		*expanded = ft_strjoin_gc(*expanded, "");
-		return(2);
-	}
+	special_result = handle_special_expansion(expanded, start, exit_code);
+	if (special_result > 0)
+		return (special_result);
 	var_len = get_var_len(&start[1]);
 	if (var_len == 0)
 	{
-		if(start[1] && !ft_isalpha(start[1]) && start[1] != '_')
-		{
-			skip = 2;
-			if(!ft_isspace(start[1]))
-			{
-				while(!ft_isspace(start[skip]) && start[skip] != '$')
-					skip++;
-			}
-			*expanded = ft_strjoin_gc(*expanded, "");
-			return(skip);
-		}
-		else
-		{
-			*expanded = append_char(*expanded, '$');
-			return (1);
-		}
+		*expanded = append_char(*expanded, '$');
+		return (1);
 	}
 	key = ft_substr(&start[1], 0, (size_t)var_len);
 	gc_add_local(key);

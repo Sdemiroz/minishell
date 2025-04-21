@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:18:51 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/11 19:13:12 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 04:38:36 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ t_token	*read_quoted_token(char *user_input, int *i)
 	char			*value;
 	t_quote_type	qtype;
 
-	quote_char = user_input[*i]; // set quote to determine delimeter
+	quote_char = user_input[*i];
 	if (quote_char == '\'')
 		qtype = SINGLE_QUOTE;
 	else
 		qtype = DOUBLE_QUOTE;
-	(*i)++; // skipping quote
+	(*i)++;
 	start = *i;
 	while (user_input[*i] && user_input[*i] != quote_char)
 		(*i)++;

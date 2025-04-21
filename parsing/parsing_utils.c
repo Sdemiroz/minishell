@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 19:05:38 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/13 19:16:05 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 05:01:13 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	add_pipe_to_list(t_pipe_list *list, t_pipe *pipe)
 {
-	if(!list || !pipe)
-		return;
-	if(!list->head)
+	if (!list || !pipe)
+		return ;
+	if (!list->head)
 	{
 		list->head = pipe;
 		list->tail = pipe;
@@ -31,18 +31,40 @@ void	add_pipe_to_list(t_pipe_list *list, t_pipe *pipe)
 
 t_pipe	*create_pipe(void)
 {
-	t_pipe	*new_pipe;
+	t_pipe	*np;
 
-	new_pipe = ft_malloc_local(sizeof(t_pipe));
-	if(!new_pipe)
-		return(NULL);
-	new_pipe->cmd = NULL;
-	new_pipe->next = NULL;
-	new_pipe->list_of_redirections = ft_malloc_local(sizeof(t_redirection_list));
-	if (!new_pipe->list_of_redirections)
-		return(NULL);
-	new_pipe->list_of_redirections->head = NULL;
-	new_pipe->list_of_redirections->tail = NULL;
-	new_pipe->list_of_redirections->size_of_list = 0;
-	return(new_pipe);
+	np = ft_malloc_local(sizeof(t_pipe));
+	if (!np)
+		return (NULL);
+	np->cmd = NULL;
+	np->next = NULL;
+	np->list_of_redirections = ft_malloc_local(sizeof(t_redirection_list));
+	if (!np->list_of_redirections)
+		return (NULL);
+	np->list_of_redirections->head = NULL;
+	np->list_of_redirections->tail = NULL;
+	np->list_of_redirections->size_of_list = 0;
+	return (np);
+}
+
+void	add_first_word(t_pipe *pipe, char *word)
+{
+	pipe->cmd = ft_malloc_local(sizeof(char *) * 2);
+	if (!pipe->cmd)
+		return ;
+	pipe->cmd[0] = ft_strdup(word);
+	gc_add_local(pipe->cmd[0]);
+	pipe->cmd[1] = NULL;
+}
+
+void	copy_cmd_array(char **new_cmd, char **cmd, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		new_cmd[i] = cmd[i];
+		i++;
+	}
 }
