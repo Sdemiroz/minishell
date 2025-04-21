@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 05:01:19 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/21 06:05:06 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,28 @@ typedef struct s_env
 	char					*value;
 	struct s_env			*next;
 }							t_env;
-typedef enum e_token_type // enum for token identification during tokenizing
+typedef enum e_token_type
 {
-	WORD,          // 0
-	PIPE,          // 1
-	REDIR_IN,      // < 2
-	REDIR_OUT,     // > 3
-	REDIR_APPEND,  // >> 4
-	REDIR_HEREDOC, // << 5
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC,
 }							t_token_type;
 
 typedef enum e_quote_type
 {
-	NO_QUOTE,     // 0
-	SINGLE_QUOTE, // 1
-	DOUBLE_QUOTE  // 2
+	NO_QUOTE,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE
 }							t_quote_type;
-typedef struct s_token // struct to save tokens during tokenization
+typedef struct s_token
 {
-	t_token_type type;
-	t_quote_type quote_type;
-	char *value;
-	struct s_token *next;
+	t_token_type			type;
+	t_quote_type			quote_type;
+	char					*value;
+	struct s_token			*next;
 }							t_token;
 
 typedef struct s_redirection
@@ -93,12 +93,9 @@ typedef struct s_minishell
 
 //----------SRCS----------//
 
-// Function Prototypes BEGIN
-void						debug_parsed_structure(t_pipe_list *pipe_list);
-
 // init_mini
-t_env						*new_env_node(char *key, char *value);
 t_env						*env_from_envp(char **envp);
+t_env						*new_env_node(char *key, char *value);
 t_minishell					*init_mini(char **envp);
 void						free_parts(char **parts);
 
@@ -163,7 +160,8 @@ void						add_redirection(t_pipe *pipe, t_token_type type,
 t_pipe						*create_pipe(void);
 void						add_pipe_to_list(t_pipe_list *list, t_pipe *pipe);
 void						add_first_word(t_pipe *pipe, char *word);
-void						copy_cmd_array(char **new_cmd, char **cmd, int count);
+void						copy_cmd_array(char **new_cmd, char **cmd,
+								int count);
 
 //----------EXECUTION----------//
 
