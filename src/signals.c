@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:28:32 by nchairun          #+#    #+#             */
-/*   Updated: 2025/04/27 21:11:26 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:09:44 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	disable_echoctl(void)
 		return ;
 	}
 	term.c_lflag &= ~(tcflag_t)ECHOCTL;
+	term.c_lflag &= ~(tcflag_t)NOFLSH;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
 	{
 		perror("tcsetattr");
@@ -33,6 +34,7 @@ void	sigint_handler(int signal)
 	(void)signal;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 

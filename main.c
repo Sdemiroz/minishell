@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/28 02:18:37 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:08:57 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ int	main(int argc, char **argv, char **envp)
 		reset_mini(mini);
 		user_input = readline("Mini $ ");
 		if (!user_input)
+		{
+			printf("exit\n");
 			break ;
+		}
 		else
 			main_routine(mini, user_input);
-		add_history(user_input);
+		if(*user_input)
+			add_history(user_input);
 		gc_free_local();
 		free(user_input);
 	}
