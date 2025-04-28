@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 03:07:30 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 04:33:12 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:13:07 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,21 @@ bool	is_builtin(char *cmd)
 		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "unset"));
 }
 
-void	execute_command(t_pipe *cmd, t_minishell *mini)
+void execute_command(t_pipe *cmd, t_minishell *mini)
 {
-	char	*path;
-	char	**env_array;
+    char    *path;
+    char    **env_array;
 
-	if (!cmd->cmd || !cmd->cmd[0])
-		exit(0);
-	path = get_full_path(cmd->cmd[0], mini->env);
-	if (!path)
-	{
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd(cmd->cmd[0], 2);
-		exit(127);
-	}
+    if (!cmd->cmd || !cmd->cmd[0])
+        exit(0);
+    path = get_full_path(cmd->cmd[0], mini->env);
+    if (!path)
+    {
+        ft_putstr_fd("command not found: ", 2);
+        ft_putendl_fd(cmd->cmd[0], 2);
+        mini->exit_code = 127;
+        exit(127);
+    }
 	if (is_builtin(cmd->cmd[0]))
 		exit(execute_builtin(cmd->cmd, mini));
 	env_array = env_to_array(mini->env);

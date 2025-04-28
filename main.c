@@ -6,22 +6,30 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 21:22:34 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/28 02:18:37 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	reset_mini(t_minishell *mini)
+{
+	mini->pipe_list = NULL;
+	mini->tokens = NULL;
+}
 
 void	main_routine(t_minishell *mini, char *user_input)
 {
 	if (quotes_error(user_input) == true)
 	{
 		printf("Error: open quotes don't work!\n");
+		mini->exit_code = 1;
 		return ;
 	}
 	else if (parsing(mini, user_input) == false)
 	{
 		printf("Syntax Error\n");
+		mini->exit_code = 2;
 		return ;
 	}
 	if (!mini->pipe_list)
@@ -45,16 +53,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_signals();
+		reset_mini(mini);
 		user_input = readline("Mini $ ");
-		// if (isatty(fileno(stdin)))
-		// user_input = readline("minishell>>");
-		// else
-		// {
-		// 	char *line;
-		// 	line = get_next_line(fileno(stdin));
-		// 	user_input = ft_strtrim(line, "\n");
-		// 	free(line);
-		// }
 		if (!user_input)
 			break ;
 		else

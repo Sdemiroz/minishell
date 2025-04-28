@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:28:32 by nchairun          #+#    #+#             */
-/*   Updated: 2025/04/21 05:05:54 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:11:26 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,5 @@ void	init_signals(void)
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
-	sa.sa_handler = sigchld_handler;
-	sigaction(SIGCHLD, &sa, NULL);
 	disable_echoctl();
 }
