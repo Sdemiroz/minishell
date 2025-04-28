@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 04:31:24 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/28 04:18:36 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/28 06:12:11 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	wait_for_children(t_minishell *mini)
 			mini->exit_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 		{
-			// WTERMSIG(status);
+			WTERMSIG(status);
 			mini->exit_code = 128 + WTERMSIG(status);
 		}
 		last_pid = wait(&status);

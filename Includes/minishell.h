@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 21:41:31 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/29 00:24:17 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void						skip_spaces(char *user_input, int *i);
 void						add_token_to_back(t_token **head_token,
 								t_token *new_token);
 t_token						*create_tokens(char *user_input);
+void						join_tokens(t_token *head_token);
 
 // read_tokens.c
 bool						delimiter_check(char c);
