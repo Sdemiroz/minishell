@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 03:38:29 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 04:43:57 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/29 05:04:53 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	handle_non_alpha_expansion(char **expanded, char *start)
 	int	skip;
 
 	skip = 2;
-	if (!ft_isspace(start[1]))
+	if (!ft_isspace(start[1]) && (start[1] != '\'' || start[1] != '"'))
 	{
 		while (!ft_isspace(start[skip]) && start[skip] != '$')
 			skip++;

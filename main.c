@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/29 00:27:20 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/04/29 05:20:54 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signals();
 		reset_mini(mini);
-		user_input = readline("Mini $ ");
+		user_input = readline("bash-3.2$ ");
 		// if (isatty(fileno(stdin)))
         // 	user_input = readline("minishell>>");
         // else
