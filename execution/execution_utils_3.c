@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 04:31:24 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/05/02 02:24:03 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 02:55:03 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ void	execute_pipeline(t_minishell *mini, t_pipe *cmd, int prev_fd)
 }
 
 // Modify process_builtin in execution_utils_3.c
-void process_builtin(t_pipe *cmd, t_minishell *mini)
+void	process_builtin(t_pipe *cmd, t_minishell *mini)
 {
-    int stdin_backup = -1;
-    int stdout_backup = -1;
+	int	stdin_backup;
+	int	stdout_backup;
 
-    if (cmd->list_of_redirections && cmd->list_of_redirections->head)
-        setup_redirection_with_backup(cmd, &stdin_backup, &stdout_backup);
-
-    mini->exit_code = execute_builtin(cmd->cmd, mini);
-
-    if (stdin_backup != -1 || stdout_backup != -1)
-        restore_std_fds(stdin_backup, stdout_backup);
+	stdin_backup = -1;
+	stdout_backup = -1;
+	if (cmd->list_of_redirections && cmd->list_of_redirections->head)
+		setup_redirection_with_backup(cmd, &stdin_backup, &stdout_backup);
+	mini->exit_code = execute_builtin(cmd->cmd, mini);
+	if (stdin_backup != -1 || stdout_backup != -1)
+		restore_std_fds(stdin_backup, stdout_backup);
 }
 
 void	wait_for_children(t_minishell *mini)

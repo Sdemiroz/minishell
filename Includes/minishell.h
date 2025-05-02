@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/05/02 02:24:49 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 02:55:27 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -23,7 +24,6 @@
 # include <stdlib.h>
 # include <termios.h>
 # include <unistd.h>
-# include <errno.h>
 
 typedef struct s_env
 {
@@ -203,9 +203,10 @@ void						prepare_pipes(t_pipe *cmd, int *pipe_fd,
 								int **pipe_ptr);
 
 // execution_utils_4.c
-void 						setup_redirection_with_backup(t_pipe *cmd, int *stdin_backup, int *stdout_backup);
-void 						restore_std_fds(int stdin_backup, int stdout_backup);
-
+void						setup_redirection_with_backup(t_pipe *cmd,
+								int *stdin_backup, int *stdout_backup);
+void						restore_std_fds(int stdin_backup,
+								int stdout_backup);
 
 //----------BUILT_INS----------//
 
