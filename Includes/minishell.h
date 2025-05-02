@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/05/02 02:55:27 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 03:37:09 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdlib.h>
 # include <termios.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 typedef struct s_env
 {
