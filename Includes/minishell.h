@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/05/02 01:50:43 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 02:24:49 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,11 @@ void						process_builtin(t_pipe *cmd, t_minishell *mini);
 void						wait_for_children(t_minishell *mini);
 void						prepare_pipes(t_pipe *cmd, int *pipe_fd,
 								int **pipe_ptr);
+
+// execution_utils_4.c
+void 						setup_redirection_with_backup(t_pipe *cmd, int *stdin_backup, int *stdout_backup);
+void 						restore_std_fds(int stdin_backup, int stdout_backup);
+
 
 //----------BUILT_INS----------//
 

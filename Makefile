@@ -42,7 +42,7 @@ LEXER_EXPANDER_REPO := $(addprefix lexer_expander/, $(LEXER_EXPANDER_FILES))
 PARSING_FILES := parsing.c parsing_utils.c
 PARSING_REPO := $(addprefix parsing/, $(PARSING_FILES))
 
-EXECUTION_FILES := execution.c execution_utils_1.c execution_utils_2.c execution_utils_3.c
+EXECUTION_FILES := execution.c execution_utils_1.c execution_utils_2.c execution_utils_3.c execution_utils_4.c
 EXECUTION_REPO := $(addprefix execution/, $(EXECUTION_FILES))
 
 BUILT_INS_FILES := cd.c echo.c env.c exit.c export.c pwd.c unset.c
