@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 00:26:37 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/29 00:24:17 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:50:43 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_token
 	t_quote_type			quote_type;
 	char					*value;
 	struct s_token			*next;
+	bool					start_is_whitespace;
 }							t_token;
 
 typedef struct s_redirection
@@ -159,6 +160,7 @@ void						add_redirection(t_pipe *pipe, t_token_type type,
 								char *filename);
 
 // parsing_utils.c
+void						merge_tokens(t_token *curr);
 t_pipe						*create_pipe(void);
 void						add_pipe_to_list(t_pipe_list *list, t_pipe *pipe);
 void						add_first_word(t_pipe *pipe, char *word);

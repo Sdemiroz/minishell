@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 04:58:56 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 05:01:37 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:50:15 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,15 @@ void	parse_tokens_to_pipe_list(t_minishell *mini)
 		{
 			current_pipe = create_pipe();
 			add_pipe_to_list(mini->pipe_list, current_pipe);
-			curr = curr->next;
-			continue ;
 		}
 		else if (curr->type == WORD)
+		{
+			if (curr->quote_type != NO_QUOTE && curr->next
+				&& curr->next->type == WORD
+				&& curr->start_is_whitespace == false)
+				merge_tokens(curr);
 			add_word_to_cmd(current_pipe, curr->value);
+		}
 		else if (curr->type >= REDIR_IN && curr->type <= REDIR_HEREDOC)
 			handle_redirection_token(current_pipe, &curr);
 		curr = curr->next;

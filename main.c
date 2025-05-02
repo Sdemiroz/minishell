@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 00:03:12 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/29 05:20:54 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:57:59 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,26 @@ void	main_routine(t_minishell *mini, char *user_input)
 		execution(mini);
 }
 
+static void	handle_input(t_minishell *mini, char *user_input)
+{
+	main_routine(mini, user_input);
+	if (*user_input)
+		add_history(user_input);
+	gc_free_local();
+	free(user_input);
+}
+
+static void	cleanup_shell(void)
+{
+	printf("exit\n");
+	rl_clear_history();
+	gc_free_all();
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_minishell				*mini;
-	char					*user_input;
-	t_garbage_collector		*gc_init_garbage_collector(void);
+	t_minishell	*mini;
+	char		*user_input;
 
 	(void)argc;
 	(void)argv;
@@ -55,30 +70,10 @@ int	main(int argc, char **argv, char **envp)
 		init_signals();
 		reset_mini(mini);
 		user_input = readline("bash-3.2$ ");
-		// if (isatty(fileno(stdin)))
-        // 	user_input = readline("minishell>>");
-        // else
-        // {
-        // 	 char *line;
-        // 	line = get_next_line(fileno(stdin));
-        //  	user_input = ft_strtrim(line, "\n");
-        // 	 free(line);
-        // }
 		if (!user_input)
-		{
-			printf("exit\n");
 			break ;
-		}
-		else
-			main_routine(mini, user_input);
-		if(*user_input)
-			add_history(user_input);
-		gc_free_local();
-		free(user_input);
+		handle_input(mini, user_input);
 	}
-	rl_clear_history();
-	gc_free_all();
+	cleanup_shell();
 	return (0);
 }
-// valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
-// ./minishell

@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 02:18:51 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/29 00:35:37 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:24:12 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_token	*new_token(t_token_type type, t_quote_type qtype, char *value)
 	token->quote_type = qtype;
 	token->value = value;
 	token->next = NULL;
+	token->start_is_whitespace = false;
 	return (token);
 }
 

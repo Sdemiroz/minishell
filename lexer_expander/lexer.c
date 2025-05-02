@@ -6,7 +6,7 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 15:56:36 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/29 00:31:16 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:40:58 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ t_token	*create_tokens(char *user_input)
 			temp_token = read_redirection_token(user_input, &i);
 		else
 			temp_token = read_word(user_input, &i);
+		if (ft_isspace(user_input[i]))
+			temp_token->start_is_whitespace = true;
 		add_token_to_back(&head_token, temp_token);
 		skip_spaces(user_input, &i);
 	}

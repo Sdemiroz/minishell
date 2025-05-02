@@ -6,11 +6,32 @@
 /*   By: sdemiroz <sdemiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 19:05:38 by sdemiroz          #+#    #+#             */
-/*   Updated: 2025/04/21 05:01:13 by sdemiroz         ###   ########.fr       */
+/*   Updated: 2025/05/02 01:50:28 by sdemiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	merge_tokens(t_token *curr)
+{
+	t_token	*next;
+	char	*merged_value;
+
+	if (!curr || !curr->next)
+		return ;
+	next = curr->next;
+	if (next->type == WORD && curr->quote_type != NO_QUOTE
+		&& !next->start_is_whitespace)
+	{
+		merged_value = ft_strjoin(curr->value, next->value);
+		if (!merged_value)
+			return ;
+		gc_add_local(merged_value);
+		curr->value = merged_value;
+		curr->next = next->next;
+		merge_tokens(curr);
+	}
+}
 
 void	add_pipe_to_list(t_pipe_list *list, t_pipe *pipe)
 {
